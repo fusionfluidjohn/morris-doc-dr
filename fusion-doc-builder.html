@@ -17,28 +17,26 @@
   }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 14px; }
 
-  /* NAV */
   .nav { background: var(--surface); border-bottom: 0.5px solid var(--border); padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; height: 52px; position: sticky; top: 0; z-index: 100; }
-  .nav-brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 15px; color: var(--text); }
+  .nav-brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 15px; }
   .nav-brand-icon { width: 28px; height: 28px; border-radius: 6px; background: var(--blue); display: flex; align-items: center; justify-content: center; }
   .nav-brand-icon svg { width: 16px; height: 16px; fill: white; }
   .nav-right { display: flex; align-items: center; gap: 8px; }
   .nav-status { font-size: 12px; color: var(--text-secondary); background: var(--surface2); border: 0.5px solid var(--border); padding: 4px 10px; border-radius: 20px; }
   .nav-status.connected { color: var(--green); background: var(--green-light); border-color: #86efac; }
-  .avatar { width: 30px; height: 30px; border-radius: 50%; background: var(--blue-light); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--blue); cursor: default; border: 1.5px solid var(--blue-mid); }
+  .avatar { width: 30px; height: 30px; border-radius: 50%; background: var(--blue-light); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--blue); border: 1.5px solid var(--blue-mid); }
   .btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: var(--radius); font-size: 13px; font-weight: 500; cursor: pointer; border: none; transition: all .15s; }
   .btn-primary { background: var(--blue); color: white; }
   .btn-primary:hover { background: var(--blue-dark); }
   .btn-outline { background: white; color: var(--text); border: 1px solid var(--border-strong); }
   .btn-outline:hover { background: var(--surface2); }
+  .btn-success { background: var(--green); color: white; }
+  .btn-success:hover { background: #14532d; }
   .btn-sm { padding: 5px 10px; font-size: 12px; }
-  .btn-danger { background: var(--red-light); color: var(--red); border: 1px solid #fca5a5; }
-  .btn-danger:hover { background: #fecaca; }
   .btn-ghost { background: transparent; color: var(--text-secondary); border: none; padding: 4px 8px; }
   .btn-ghost:hover { background: var(--surface2); color: var(--text); }
   .btn:disabled { opacity: 0.45; cursor: not-allowed; }
 
-  /* AUTH */
   .auth-screen { display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 52px); padding: 2rem; }
   .auth-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2.5rem; max-width: 420px; width: 100%; text-align: center; box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
   .auth-logo { width: 56px; height: 56px; border-radius: 14px; background: var(--blue); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem; }
@@ -48,31 +46,33 @@
   .auth-sheet-note { background: var(--blue-light); border: 1px solid var(--blue-mid); border-radius: var(--radius); padding: 10px 14px; font-size: 12px; color: var(--blue-dark); margin-bottom: 1.25rem; text-align: left; }
   .auth-sheet-note strong { display: block; margin-bottom: 2px; }
 
-  /* LAYOUT */
-  .app-layout { display: grid; grid-template-columns: 320px 1fr; gap: 0; height: calc(100vh - 52px); }
+  .app-layout { display: grid; grid-template-columns: 320px 1fr; height: calc(100vh - 52px); }
   .sidebar { background: var(--surface); border-right: 0.5px solid var(--border); display: flex; flex-direction: column; overflow: hidden; }
   .sidebar-header { padding: 14px 16px 10px; border-bottom: 0.5px solid var(--border); flex-shrink: 0; }
-  .sidebar-header h2 { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .sidebar-header h2 { font-size: 13px; font-weight: 600; margin-bottom: 4px; }
   .sidebar-header p { font-size: 11px; color: var(--text-secondary); }
   .sidebar-search { padding: 10px 14px; border-bottom: 0.5px solid var(--border); flex-shrink: 0; }
-  .sidebar-search input { width: 100%; padding: 7px 10px 7px 30px; border: 1px solid var(--border-strong); border-radius: var(--radius); font-size: 13px; background: var(--surface2); outline: none; }
-  .sidebar-search input:focus { border-color: var(--blue); background: white; }
   .search-wrap { position: relative; }
+  .search-wrap input { width: 100%; padding: 7px 10px 7px 30px; border: 1px solid var(--border-strong); border-radius: var(--radius); font-size: 13px; background: var(--surface2); outline: none; }
+  .search-wrap input:focus { border-color: var(--blue); background: white; }
   .search-icon { position: absolute; left: 9px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); font-size: 13px; pointer-events: none; }
   .tree-scroll { flex: 1; overflow-y: auto; padding: 8px 0; }
 
-  /* TREE */
+  /* TAB SWITCHER */
+  .tab-bar { display: flex; gap: 2px; padding: 8px 10px; border-bottom: 0.5px solid var(--border); flex-wrap: wrap; flex-shrink: 0; }
+  .tab-btn { padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 500; cursor: pointer; border: 1px solid transparent; background: transparent; color: var(--text-secondary); transition: all .15s; }
+  .tab-btn:hover { background: var(--surface2); color: var(--text); }
+  .tab-btn.active { background: var(--blue-light); color: var(--blue); border-color: var(--blue-mid); }
+
   .tree-node { }
-  .tree-row { display: flex; align-items: center; gap: 4px; padding: 5px 14px 5px 0; cursor: pointer; border-radius: 0; transition: background .1s; min-height: 32px; }
+  .tree-row { display: flex; align-items: center; gap: 4px; padding: 5px 14px 5px 0; cursor: pointer; transition: background .1s; min-height: 32px; }
   .tree-row:hover { background: var(--surface2); }
   .tree-row.selected-folder { background: var(--blue-light); }
-  .tree-toggle { width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--text-secondary); font-size: 10px; border-radius: 3px; }
-  .tree-toggle:hover { background: var(--border); }
+  .tree-toggle { width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--text-secondary); font-size: 10px; }
   .tree-icon { font-size: 14px; flex-shrink: 0; }
   .tree-label { flex: 1; font-size: 13px; color: var(--text); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .tree-count { font-size: 11px; color: var(--text-secondary); background: var(--surface2); border: 0.5px solid var(--border); border-radius: 10px; padding: 1px 6px; flex-shrink: 0; }
   .tree-count.has-selected { background: var(--blue-light); color: var(--blue); border-color: var(--blue-mid); }
-  .tree-children { }
   .file-row { display: flex; align-items: center; gap: 6px; padding: 4px 14px 4px 0; cursor: pointer; transition: background .1s; min-height: 30px; }
   .file-row:hover { background: var(--surface2); }
   .file-row.file-selected { background: var(--blue-light); }
@@ -80,9 +80,7 @@
   .file-check.checked { background: var(--blue); border-color: var(--blue); }
   .file-check.checked::after { content: '✓'; color: white; font-size: 10px; font-weight: 700; }
   .file-name { flex: 1; font-size: 12.5px; color: var(--text); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .file-desc { font-size: 11px; color: var(--text-secondary); }
 
-  /* MAIN */
   .main { display: flex; flex-direction: column; overflow: hidden; }
   .main-toolbar { padding: 12px 20px; border-bottom: 0.5px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; background: var(--surface); }
   .toolbar-left { display: flex; align-items: center; gap: 10px; }
@@ -90,75 +88,75 @@
   .sel-count strong { color: var(--text); }
   .main-content { flex: 1; overflow-y: auto; padding: 20px; }
 
-  /* SELECTED PANEL */
+  /* FILE DETAIL PANEL */
+  .detail-panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 16px; overflow: hidden; display: none; }
+  .detail-panel.open { display: block; }
+  .detail-header { padding: 12px 16px; border-bottom: 0.5px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .detail-header h3 { font-size: 13px; font-weight: 600; }
+  .detail-attrs { padding: 12px 16px; display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+  .attr-item { }
+  .attr-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--text-secondary); margin-bottom: 2px; }
+  .attr-value { font-size: 13px; color: var(--text); }
+
   .selected-panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 16px; overflow: hidden; }
   .panel-header { padding: 14px 16px; border-bottom: 0.5px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
   .panel-header h3 { font-size: 13px; font-weight: 600; }
-  .selected-list { padding: 8px 0; }
   .sel-item { display: flex; align-items: center; gap: 10px; padding: 8px 16px; border-bottom: 0.5px solid var(--border); }
   .sel-item:last-child { border-bottom: none; }
-  .sel-item-icon { font-size: 16px; flex-shrink: 0; }
   .sel-item-info { flex: 1; min-width: 0; }
   .sel-item-name { font-size: 13px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .sel-item-path { font-size: 11px; color: var(--text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .sel-item-path { font-size: 11px; color: var(--text-secondary); }
   .sel-empty { padding: 32px 16px; text-align: center; color: var(--text-secondary); font-size: 13px; }
-  .sel-empty-icon { font-size: 28px; margin-bottom: 8px; }
 
-  /* BUILD CARD */
-  .build-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; }
+  .build-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 16px; }
   .build-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
   .build-card p { font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; }
-  .build-btn { width: 100%; justify-content: center; padding: 12px; font-size: 15px; font-weight: 600; border-radius: var(--radius); }
+  .build-btn { width: 100%; justify-content: center; padding: 12px; font-size: 15px; font-weight: 600; }
   .progress-bar { height: 6px; background: var(--surface2); border-radius: 3px; margin: 12px 0; overflow: hidden; }
   .progress-fill { height: 100%; background: var(--blue); border-radius: 3px; width: 0%; transition: width .3s; }
   .progress-status { font-size: 12px; color: var(--text-secondary); }
   .build-actions { display: flex; gap: 10px; margin-top: 12px; }
 
-  /* UPLOAD ZONE */
+  /* SETUP CARD */
+  .setup-card { background: #fffbeb; border: 1px solid #fcd34d; border-radius: var(--radius-lg); padding: 20px; margin-bottom: 16px; }
+  .setup-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 6px; color: #92400e; }
+  .setup-card p { font-size: 13px; color: #78350f; margin-bottom: 14px; line-height: 1.5; }
+
   .upload-zone { border: 2px dashed var(--border-strong); border-radius: var(--radius-lg); padding: 24px; text-align: center; margin-bottom: 16px; transition: all .2s; cursor: pointer; background: var(--surface); }
   .upload-zone:hover, .upload-zone.drag-over { border-color: var(--blue); background: var(--blue-light); }
   .upload-zone-icon { font-size: 28px; margin-bottom: 8px; }
   .upload-zone h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
   .upload-zone p { font-size: 12px; color: var(--text-secondary); }
-  .upload-modal { background: var(--surface); border-radius: var(--radius-lg); padding: 24px; max-width: 480px; width: 100%; }
-  .upload-modal h3 { font-size: 16px; font-weight: 700; margin-bottom: 16px; }
-  .form-group { margin-bottom: 14px; }
-  .form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 5px; text-transform: uppercase; letter-spacing: .04em; }
-  .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px 10px; border: 1px solid var(--border-strong); border-radius: var(--radius); font-size: 13px; outline: none; }
-  .form-group input:focus, .form-group select:focus { border-color: var(--blue); }
-  .form-row { display: flex; gap: 10px; }
-  .form-row .form-group { flex: 1; }
 
-  /* MODAL */
   .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px; opacity: 0; pointer-events: none; transition: opacity .2s; }
   .modal-backdrop.open { opacity: 1; pointer-events: all; }
+  .modal-box { background: var(--surface); border-radius: var(--radius-lg); padding: 24px; max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto; }
+  .modal-box h3 { font-size: 16px; font-weight: 700; margin-bottom: 16px; }
+  .form-group { margin-bottom: 14px; }
+  .form-group label { display: block; font-size: 11px; font-weight: 600; color: var(--text-secondary); margin-bottom: 5px; text-transform: uppercase; letter-spacing: .04em; }
+  .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px 10px; border: 1px solid var(--border-strong); border-radius: var(--radius); font-size: 13px; outline: none; font-family: inherit; }
+  .form-group input:focus, .form-group select:focus { border-color: var(--blue); }
+  .attrs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-  /* TOAST */
   .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: #1a1a1a; color: white; padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 500; z-index: 2000; transition: transform .25s; white-space: nowrap; }
   .toast.show { transform: translateX(-50%) translateY(0); }
 
-  /* LOADING */
-  .loading-overlay { position: fixed; inset: 0; background: rgba(255,255,255,0.8); display: flex; align-items: center; justify-content: center; z-index: 500; flex-direction: column; gap: 12px; }
+  .loading-overlay { position: fixed; inset: 0; background: rgba(255,255,255,0.85); display: flex; align-items: center; justify-content: center; z-index: 500; flex-direction: column; gap: 12px; }
   .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--blue); border-radius: 50%; animation: spin .8s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
   .loading-text { font-size: 13px; color: var(--text-secondary); }
 
-  /* TAG */
-  .tag { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 500; }
+  .tag { display: inline-flex; align-items: center; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 500; }
   .tag-blue { background: var(--blue-light); color: var(--blue); border: 0.5px solid var(--blue-mid); }
-  .tag-green { background: var(--green-light); color: var(--green); }
-
-  .divider { height: 0.5px; background: var(--border); margin: 6px 0; }
   .empty-state { padding: 48px 24px; text-align: center; color: var(--text-secondary); }
   .empty-state-icon { font-size: 36px; margin-bottom: 12px; }
   .empty-state h3 { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
   .empty-state p { font-size: 13px; line-height: 1.5; }
-  .upload-progress { margin-top: 10px; }
+  .progress-upload { margin-top: 10px; }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav class="nav">
   <div class="nav-brand">
     <div class="nav-brand-icon">
@@ -168,12 +166,13 @@
   </div>
   <div class="nav-right">
     <span class="nav-status" id="nav-status">Not connected</span>
-    <div class="avatar" id="nav-avatar" style="display:none"></div>
+    <div class="avatar" id="nav-avatar" style="display:none">FF</div>
+    <button class="btn btn-outline btn-sm" id="setup-btn" style="display:none" onclick="openSetupConfirm()">⚙ Setup Sheet</button>
     <button class="btn btn-outline btn-sm" id="nav-signout-btn" style="display:none" onclick="signOut()">Sign out</button>
   </div>
 </nav>
 
-<!-- AUTH SCREEN -->
+<!-- AUTH -->
 <div class="auth-screen" id="auth-screen">
   <div class="auth-card">
     <div class="auth-logo">
@@ -183,7 +182,7 @@
     <p>Build custom documentation packages from your Fusion Fluid component library. Sign in with Google to access your datasheets.</p>
     <div class="auth-sheet-note">
       <strong>📋 Component Index</strong>
-      Automatically connects to <em>Morris Doc Dr – Component Index</em> in Google Sheets.
+      Automatically connects to your Morris Doc Dr Component Index in Google Sheets.
     </div>
     <button class="btn btn-primary" style="width:100%;justify-content:center;padding:11px" onclick="signIn()">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
@@ -198,20 +197,17 @@
   <div class="sidebar">
     <div class="sidebar-header">
       <h2>Component Library</h2>
-      <p id="sheet-status">Loading from Component Index…</p>
+      <p id="sheet-status">Loading…</p>
     </div>
+    <div class="tab-bar" id="tab-bar"></div>
     <div class="sidebar-search">
       <div class="search-wrap">
         <span class="search-icon">🔍</span>
-        <input type="text" placeholder="Search components…" oninput="filterTree(this.value)" id="search-input"/>
+        <input type="text" placeholder="Search components…" oninput="filterTree(this.value)"/>
       </div>
     </div>
     <div class="tree-scroll" id="tree-container">
-      <div class="empty-state">
-        <div class="empty-state-icon">📂</div>
-        <h3>Loading…</h3>
-        <p>Connecting to Component Index</p>
-      </div>
+      <div class="empty-state"><div class="empty-state-icon">📂</div><h3>Loading…</h3></div>
     </div>
   </div>
 
@@ -222,17 +218,28 @@
         <button class="btn btn-ghost btn-sm" onclick="clearAll()" id="clear-btn" style="display:none">Clear all</button>
       </div>
       <div style="display:flex;gap:8px">
-        <button class="btn btn-outline btn-sm" onclick="openUploadModal()" id="upload-btn">
-          ⬆ Upload PDF
-        </button>
-        <button class="btn btn-primary btn-sm" onclick="buildPackage()" id="build-btn">
-          📄 Build Package
-        </button>
+        <button class="btn btn-outline btn-sm" onclick="openUploadModal()">⬆ Upload PDF</button>
+        <button class="btn btn-primary btn-sm" onclick="buildPackage()">📄 Build Package</button>
       </div>
     </div>
 
     <div class="main-content">
-      <!-- UPLOAD DROP ZONE -->
+      <!-- SETUP WARNING -->
+      <div class="setup-card" id="setup-card" style="display:none">
+        <h3>⚠️ Sheet Setup Required</h3>
+        <p>Your Component Index doesn't have the new tab structure yet. Click <strong>Setup Sheet</strong> in the top nav to automatically create all tabs, headers, and migrate your existing data. This only needs to be done once.</p>
+      </div>
+
+      <!-- FILE DETAIL -->
+      <div class="detail-panel" id="detail-panel">
+        <div class="detail-header">
+          <h3 id="detail-title">File Details</h3>
+          <button class="btn btn-ghost btn-sm" onclick="closeDetail()">✕</button>
+        </div>
+        <div class="detail-attrs" id="detail-attrs"></div>
+      </div>
+
+      <!-- DROP ZONE -->
       <div class="upload-zone" id="drop-zone"
            onclick="document.getElementById('file-input').click()"
            ondragover="handleDragOver(event)"
@@ -241,24 +248,21 @@
         <input type="file" id="file-input" accept=".pdf" multiple style="display:none" onchange="handleFileSelect(event)"/>
         <div class="upload-zone-icon">📎</div>
         <h4>Drop PDFs here to add to library</h4>
-        <p>Or click to browse · PDFs upload to Google Drive and index automatically</p>
+        <p>Or click to browse · Uploads to Google Drive and indexes automatically</p>
       </div>
 
-      <!-- SELECTED PANEL -->
+      <!-- SELECTED -->
       <div class="selected-panel">
         <div class="panel-header">
           <h3>Selected for Package</h3>
           <span class="tag tag-blue" id="sel-tag">0 files</span>
         </div>
         <div id="selected-list">
-          <div class="sel-empty">
-            <div class="sel-empty-icon">☑️</div>
-            Select files from the component library on the left to add them to your package.
-          </div>
+          <div class="sel-empty">Select files from the component library on the left.</div>
         </div>
       </div>
 
-      <!-- BUILD CARD -->
+      <!-- BUILD -->
       <div class="build-card">
         <h3>Build Documentation Package</h3>
         <p>Compile selected datasheets into a single PDF with cover page, table of contents, and section dividers.</p>
@@ -276,48 +280,66 @@
   </div>
 </div>
 
-<!-- UPLOAD MODAL -->
+<!-- MODAL -->
 <div class="modal-backdrop" id="modal-backdrop">
-  <div class="upload-modal" id="modal-content"></div>
+  <div class="modal-box" id="modal-box" onclick="event.stopPropagation()"></div>
 </div>
 
-<!-- LOADING OVERLAY -->
+<!-- LOADING -->
 <div class="loading-overlay" id="loading-overlay" style="display:none">
   <div class="spinner"></div>
   <div class="loading-text" id="loading-text">Loading…</div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-// ── CONFIG ──────────────────────────────────────────────────────────────────
+// ── CONFIG ───────────────────────────────────────────────────────────────────
 const CLIENT_ID = '499704696187-6gu7t2o2cv8n8vhufdg6q9pnqj772fh7.apps.googleusercontent.com';
 const SHEET_ID  = '1PMUlporuGtWumVMZkyxpOZmswp_Xke-hmogHklTgNbs';
 const SCOPES    = 'openid email profile https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.readonly';
 
+// Default schema — used when setting up the sheet for the first time
+const DEFAULT_SCHEMA = [
+  { tab: 'Electric Motors', attrs: ['Temp Code','RPM','HP','Frame','Voltage','Enclosure','Efficiency','Phase'] },
+  { tab: 'Gearboxes',       attrs: ['Ratio','Input RPM','Output RPM','Torque','Mounting Style','Series'] },
+  { tab: 'Seals',           attrs: ['Seal Type','Debris Well','Size','Material'] },
+  { tab: 'Sales',           attrs: ['Revision','Drawing Number','Equipment Tag','Orientation','Series','Mount'] },
+  { tab: 'Impellers',       attrs: ['Type','Pumping Direction'] },
+];
+
+// Migration map from old Sheet1 paths to new tabs
+const MIGRATION_MAP = {
+  'Electric Motors': 'Electric Motors',
+  'Gearboxes': 'Gearboxes',
+  'Mechanical Seals': 'Seals',
+};
+
 // ── STATE ────────────────────────────────────────────────────────────────────
-let accessToken = null;
-let treeData    = [];        // [{path, fileName, fileId, description}]
-let treeNodes   = {};        // nested tree built from treeData
-let selected    = {};        // fileId -> row object
-let packageBlob = null;
-let pendingFiles = [];       // queued for upload modal
+let accessToken  = null;
+let schema       = [];       // [{tab, attrs}]
+let allData      = {};       // tab -> [{path, fileName, fileId, attrs:{}}]
+let activeTab    = null;
+let treeNodes    = {};
+let selected     = {};
+let searchQuery  = '';
+let expandedNodes = new Set();
+let pendingFiles = [];
+let packageBlob  = null;
 
 // ── AUTH ─────────────────────────────────────────────────────────────────────
 function signIn() {
   const client = google.accounts.oauth2.initTokenClient({
-    client_id: CLIENT_ID,
-    scope: SCOPES,
+    client_id: CLIENT_ID, scope: SCOPES,
     callback: async (resp) => {
       if (resp.error) { showToast('Sign-in failed: ' + resp.error); return; }
       accessToken = resp.access_token;
-      document.getElementById('nav-avatar').textContent = 'FF';
       document.getElementById('nav-avatar').style.display = 'flex';
       document.getElementById('nav-signout-btn').style.display = 'inline-flex';
+      document.getElementById('setup-btn').style.display = 'inline-flex';
       setNavStatus('connected', '● Connected');
       showApp();
-      loadSheetData();
+      await loadAllData();
     }
   });
   client.requestAccessToken();
@@ -325,9 +347,10 @@ function signIn() {
 
 function signOut() {
   if (accessToken) google.accounts.oauth2.revoke(accessToken);
-  accessToken = null; selected = {}; treeData = []; treeNodes = {};
+  accessToken = null; selected = {}; allData = {}; schema = [];
   document.getElementById('nav-avatar').style.display = 'none';
   document.getElementById('nav-signout-btn').style.display = 'none';
+  document.getElementById('setup-btn').style.display = 'none';
   setNavStatus('', 'Not connected');
   document.getElementById('auth-screen').style.display = 'flex';
   document.getElementById('app-layout').style.display = 'none';
@@ -344,133 +367,193 @@ function setNavStatus(cls, text) {
   el.className = 'nav-status' + (cls ? ' ' + cls : '');
 }
 
-// ── API HELPERS ───────────────────────────────────────────────────────────────
+// ── API ───────────────────────────────────────────────────────────────────────
 async function fetchJSON(url, opts={}) {
   const r = await fetch(url, { ...opts, headers: { Authorization: 'Bearer ' + accessToken, 'Content-Type': 'application/json', ...(opts.headers||{}) } });
   if (!r.ok) { const t = await r.text(); throw new Error(r.status + ': ' + t); }
   return r.json();
 }
 
-// ── SHEET LOAD ────────────────────────────────────────────────────────────────
-async function loadSheetData() {
+// ── LOAD DATA ─────────────────────────────────────────────────────────────────
+async function loadAllData() {
   showLoading('Loading Component Index…');
   try {
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Sheet1!A2:D1000`;
-    const data = await fetchJSON(url);
-    const rows = (data.values || []).filter(r => r[0] && r[1] && r[2]);
-    treeData = rows.map(r => ({ path: r[0].trim(), fileName: r[1].trim(), fileId: r[2].trim(), description: r[3]||'' }));
-    buildTree();
-    renderTree(treeNodes);
-    document.getElementById('sheet-status').textContent = `${treeData.length} components loaded`;
+    // Get all sheet names
+    const meta = await fetchJSON(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}?fields=sheets.properties`);
+    const sheetNames = meta.sheets.map(s => s.properties.title);
+
+    // Check if Schema tab exists
+    if (!sheetNames.includes('Schema')) {
+      hideLoading();
+      document.getElementById('setup-card').style.display = 'block';
+      document.getElementById('sheet-status').textContent = 'Setup required';
+      // Try to load old Sheet1 data as fallback
+      if (sheetNames.includes('Sheet1')) await loadLegacySheet();
+      return;
+    }
+
+    // Load Schema tab
+    const schemaData = await fetchJSON(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Schema!A2:Z100`);
+    schema = (schemaData.values||[]).filter(r=>r[0]).map(r => ({
+      tab: r[0].trim(),
+      attrs: r.slice(1).map(a=>a.trim()).filter(Boolean)
+    }));
+
+    // Load each component tab
+    allData = {};
+    for (const s of schema) {
+      if (!sheetNames.includes(s.tab)) continue;
+      const res = await fetchJSON(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(s.tab)}!A2:Z10000`);
+      allData[s.tab] = (res.values||[]).filter(r=>r[0]&&r[1]&&r[2]).map(r => ({
+        path: r[0].trim(), fileName: r[1].trim(), fileId: r[2].trim(),
+        tab: s.tab,
+        attrs: Object.fromEntries(s.attrs.map((a,i) => [a, r[3+i]||'']))
+      }));
+    }
+
+    buildTabs();
+    document.getElementById('setup-card').style.display = 'none';
+    const total = Object.values(allData).reduce((n,arr)=>n+arr.length,0);
+    document.getElementById('sheet-status').textContent = `${total} components across ${schema.length} tabs`;
   } catch(e) {
-    document.getElementById('sheet-status').textContent = 'Error loading sheet — check permissions';
-    document.getElementById('tree-container').innerHTML = `<div class="empty-state"><div class="empty-state-icon">⚠️</div><h3>Could not load index</h3><p>${e.message}</p></div>`;
-    showToast('Sheet load failed: ' + e.message);
+    document.getElementById('sheet-status').textContent = 'Error: ' + e.message;
+    showToast('Load failed: ' + e.message);
   } finally {
     hideLoading();
   }
 }
 
-// ── TREE BUILD ────────────────────────────────────────────────────────────────
+async function loadLegacySheet() {
+  try {
+    const res = await fetchJSON(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Sheet1!A2:D1000`);
+    const rows = (res.values||[]).filter(r=>r[0]&&r[1]&&r[2]);
+    // Show as flat list under a generic tab
+    schema = [{ tab: 'All Components', attrs: ['Description'] }];
+    allData = { 'All Components': rows.map(r => ({ path:r[0].trim(), fileName:r[1].trim(), fileId:r[2].trim(), tab:'All Components', attrs:{ Description: r[3]||'' } })) };
+    buildTabs();
+    document.getElementById('sheet-status').textContent = `${rows.length} components (legacy mode)`;
+  } catch(e) { /* ignore */ }
+}
+
+// ── TABS ──────────────────────────────────────────────────────────────────────
+function buildTabs() {
+  const bar = document.getElementById('tab-bar');
+  const tabs = schema.map(s => s.tab);
+  if (!tabs.length) { bar.innerHTML = ''; return; }
+  if (!activeTab || !tabs.includes(activeTab)) activeTab = tabs[0];
+  bar.innerHTML = tabs.map(t =>
+    `<button class="tab-btn${t===activeTab?' active':''}" onclick="switchTab('${escHtml(t)}')">${escHtml(t)}</button>`
+  ).join('');
+  buildTree();
+  renderTree();
+}
+
+function switchTab(tab) {
+  activeTab = tab;
+  expandedNodes = new Set();
+  buildTabs();
+}
+
+// ── TREE ──────────────────────────────────────────────────────────────────────
 function buildTree() {
   treeNodes = {};
-  for (const row of treeData) {
-    const parts = row.path.split('>').map(p => p.trim()).filter(Boolean);
+  const rows = allData[activeTab] || [];
+  for (const row of rows) {
+    const parts = row.path.split('>').map(p=>p.trim()).filter(Boolean);
     let cur = treeNodes;
-    for (let i = 0; i < parts.length; i++) {
-      const key = parts[i];
-      if (!cur[key]) cur[key] = { _files: [], _children: {} };
-      if (i === parts.length - 1) cur[key]._files.push(row);
-      else cur = cur[key]._children;
+    for (let i=0; i<parts.length; i++) {
+      if (!cur[parts[i]]) cur[parts[i]] = { _files:[], _children:{} };
+      if (i===parts.length-1) cur[parts[i]]._files.push(row);
+      else cur = cur[parts[i]]._children;
     }
   }
 }
 
-// ── TREE RENDER ───────────────────────────────────────────────────────────────
-let expandedNodes = new Set();
-let searchQuery = '';
-
-function renderTree(nodes, depth=0) {
-  const container = depth === 0 ? document.getElementById('tree-container') : null;
-  const html = buildTreeHTML(nodes, depth);
-  if (container) container.innerHTML = html || `<div class="empty-state"><div class="empty-state-icon">📂</div><h3>No components found</h3><p>Add files via the Component Index sheet</p></div>`;
-  return html;
+function renderTree() {
+  const c = document.getElementById('tree-container');
+  const html = buildTreeHTML(treeNodes, 0);
+  c.innerHTML = html || `<div class="empty-state"><div class="empty-state-icon">📂</div><h3>No components</h3><p>Upload PDFs to get started</p></div>`;
 }
 
-function buildTreeHTML(nodes, depth=0) {
+function buildTreeHTML(nodes, depth) {
   let html = '';
   const indent = depth * 16;
   for (const [name, node] of Object.entries(nodes)) {
-    const nodeId = 'node_' + btoa(encodeURIComponent(name + depth)).replace(/[^a-zA-Z0-9]/g,'').slice(0,20);
-    const isOpen = expandedNodes.has(nodeId) || searchQuery;
+    const nodeId = 'n' + btoa(encodeURIComponent(name+depth)).replace(/[^a-zA-Z0-9]/g,'').slice(0,24);
+    const isOpen = expandedNodes.has(nodeId) || !!searchQuery;
     const allFiles = collectFiles(node);
-    const selCount = allFiles.filter(f => selected[f.fileId]).length;
-    const hasChildren = Object.keys(node._children||{}).length > 0;
-    const hasFiles = (node._files||[]).length > 0;
+    const selCount = allFiles.filter(f=>selected[f.fileId]).length;
 
     if (searchQuery) {
-      const matchFiles = allFiles.filter(f => f.fileName.toLowerCase().includes(searchQuery) || f.path.toLowerCase().includes(searchQuery) || f.description.toLowerCase().includes(searchQuery));
-      if (matchFiles.length === 0) continue;
+      const match = allFiles.filter(f => f.fileName.toLowerCase().includes(searchQuery) || f.path.toLowerCase().includes(searchQuery));
+      if (!match.length) continue;
     }
 
+    const hasKids = Object.keys(node._children||{}).length > 0 || (node._files||[]).length > 0;
     html += `<div class="tree-node">
       <div class="tree-row${selCount>0?' selected-folder':''}" onclick="toggleNode('${nodeId}')" style="padding-left:${14+indent}px">
-        <div class="tree-toggle">${(hasChildren||hasFiles) ? (isOpen?'▾':'▸') : ''}</div>
+        <div class="tree-toggle">${hasKids?(isOpen?'▾':'▸'):''}</div>
         <div class="tree-icon">📁</div>
         <div class="tree-label">${escHtml(name)}</div>
         <div class="tree-count${selCount>0?' has-selected':''}">${selCount>0?selCount+'/':''}${allFiles.length}</div>
       </div>
-      <div class="tree-children" id="${nodeId}" style="display:${isOpen?'block':'none'}">`;
+      <div id="${nodeId}" style="display:${isOpen?'block':'none'}">`;
 
-    if (hasChildren) {
-      html += buildTreeHTML(node._children, depth + 1);
-    }
+    if (Object.keys(node._children||{}).length) html += buildTreeHTML(node._children, depth+1);
+
     for (const file of (node._files||[])) {
-      if (searchQuery && !file.fileName.toLowerCase().includes(searchQuery) && !file.description.toLowerCase().includes(searchQuery)) continue;
+      if (searchQuery && !file.fileName.toLowerCase().includes(searchQuery)) continue;
       const isSel = !!selected[file.fileId];
-      html += `<div class="file-row${isSel?' file-selected':''}" onclick="toggleFile(${JSON.stringify(JSON.stringify(file))})" style="padding-left:${14+indent+22}px">
-        <div class="file-check${isSel?' checked':''}"></div>
-        <div class="file-icon" style="font-size:13px">📄</div>
-        <div class="file-name">${escHtml(file.fileName)}</div>
-        ${file.description ? `<div class="file-desc">${escHtml(file.description)}</div>` : ''}
+      html += `<div class="file-row${isSel?' file-selected':''}" style="padding-left:${14+indent+22}px">
+        <div class="file-check${isSel?' checked':''}" onclick="event.stopPropagation();toggleFile(${JSON.stringify(JSON.stringify(file))})"></div>
+        <div class="file-name" onclick="showDetail(${JSON.stringify(JSON.stringify(file))})">${escHtml(file.fileName)}</div>
       </div>`;
     }
-
     html += `</div></div>`;
   }
   return html;
 }
 
 function collectFiles(node) {
-  let files = [...(node._files||[])];
-  for (const c of Object.values(node._children||{})) files = files.concat(collectFiles(c));
-  return files;
+  let f = [...(node._files||[])];
+  for (const c of Object.values(node._children||{})) f = f.concat(collectFiles(c));
+  return f;
 }
 
 function toggleNode(id) {
-  if (expandedNodes.has(id)) expandedNodes.delete(id);
-  else expandedNodes.add(id);
-  renderTree(treeNodes);
+  if (expandedNodes.has(id)) expandedNodes.delete(id); else expandedNodes.add(id);
+  renderTree();
 }
 
-function filterTree(q) {
-  searchQuery = q.toLowerCase().trim();
-  renderTree(treeNodes);
-}
+function filterTree(q) { searchQuery = q.toLowerCase().trim(); renderTree(); }
 
 function toggleFile(jsonStr) {
   const file = JSON.parse(jsonStr);
-  if (selected[file.fileId]) delete selected[file.fileId];
-  else selected[file.fileId] = file;
-  renderTree(treeNodes);
+  if (selected[file.fileId]) delete selected[file.fileId]; else selected[file.fileId] = file;
+  renderTree();
   renderSelected();
 }
 
-function clearAll() {
-  selected = {};
-  renderTree(treeNodes);
-  renderSelected();
+function clearAll() { selected = {}; renderTree(); renderSelected(); }
+
+// ── DETAIL PANEL ─────────────────────────────────────────────────────────────
+function showDetail(jsonStr) {
+  const file = JSON.parse(jsonStr);
+  const panel = document.getElementById('detail-panel');
+  document.getElementById('detail-title').textContent = file.fileName;
+  const tabSchema = schema.find(s=>s.tab===file.tab);
+  const attrs = tabSchema ? tabSchema.attrs : [];
+  let html = `<div class="attr-item"><div class="attr-label">Path</div><div class="attr-value">${escHtml(file.path)}</div></div>
+    <div class="attr-item"><div class="attr-label">Tab</div><div class="attr-value">${escHtml(file.tab)}</div></div>`;
+  for (const a of attrs) {
+    const val = (file.attrs||{})[a] || '—';
+    html += `<div class="attr-item"><div class="attr-label">${escHtml(a)}</div><div class="attr-value">${escHtml(val)}</div></div>`;
+  }
+  document.getElementById('detail-attrs').innerHTML = html;
+  panel.classList.add('open');
 }
+
+function closeDetail() { document.getElementById('detail-panel').classList.remove('open'); }
 
 // ── SELECTED PANEL ────────────────────────────────────────────────────────────
 function renderSelected() {
@@ -478,105 +561,224 @@ function renderSelected() {
   const count = files.length;
   document.getElementById('sel-count').innerHTML = `<strong>${count}</strong> file${count!==1?'s':''} selected`;
   document.getElementById('sel-tag').textContent = count + ' file' + (count!==1?'s':'');
-  document.getElementById('clear-btn').style.display = count > 0 ? 'inline-flex' : 'none';
+  document.getElementById('clear-btn').style.display = count>0?'inline-flex':'none';
   const list = document.getElementById('selected-list');
-  if (count === 0) {
-    list.innerHTML = `<div class="sel-empty"><div class="sel-empty-icon">☑️</div>Select files from the component library on the left to add them to your package.</div>`;
-    return;
-  }
-  list.innerHTML = files.map(f => `
+  if (!count) { list.innerHTML = `<div class="sel-empty">Select files from the component library on the left.</div>`; return; }
+  list.innerHTML = files.map(f=>`
     <div class="sel-item">
-      <div class="sel-item-icon">📄</div>
       <div class="sel-item-info">
         <div class="sel-item-name">${escHtml(f.fileName)}</div>
-        <div class="sel-item-path">${escHtml(f.path)}</div>
+        <div class="sel-item-path">${escHtml(f.tab)} · ${escHtml(f.path)}</div>
       </div>
       <button class="btn btn-ghost btn-sm" onclick="toggleFile(${JSON.stringify(JSON.stringify(f))})">✕</button>
     </div>`).join('');
 }
 
+// ── SETUP SHEET ───────────────────────────────────────────────────────────────
+function openSetupConfirm() {
+  document.getElementById('modal-box').innerHTML = `
+    <h3>⚙️ Setup Component Index</h3>
+    <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px;line-height:1.6">
+      This will reorganize your Google Sheet into the new tab structure:<br><br>
+      <strong>Tabs to create:</strong> Schema, Electric Motors, Gearboxes, Seals, Sales, Impellers<br><br>
+      <strong>Existing data</strong> from Sheet1 will be migrated to the correct tabs automatically.<br><br>
+      This action cannot be undone.
+    </p>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-success" style="flex:1;justify-content:center" onclick="runSetup()">✓ Set Up Now</button>
+      <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+    </div>`;
+  openModal();
+}
+
+async function runSetup() {
+  closeModal();
+  showLoading('Setting up Component Index…');
+  try {
+    // Get current sheet info
+    const meta = await fetchJSON(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}?fields=sheets.properties`);
+    const sheets = meta.sheets.map(s => ({ id: s.properties.sheetId, title: s.properties.title }));
+
+    // Read old Sheet1 data if it exists
+    let legacyRows = [];
+    const sheet1 = sheets.find(s=>s.title==='Sheet1');
+    if (sheet1) {
+      const res = await fetchJSON(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Sheet1!A2:D10000`);
+      legacyRows = (res.values||[]).filter(r=>r[0]&&r[1]&&r[2]);
+    }
+
+    // Build batch requests
+    const requests = [];
+
+    // Create Schema tab
+    requests.push({ addSheet: { properties: { title: 'Schema' } } });
+
+    // Create component tabs
+    for (const s of DEFAULT_SCHEMA) {
+      requests.push({ addSheet: { properties: { title: s.tab } } });
+    }
+
+    // Delete Sheet1 if exists (add to end so we don't delete before reading)
+    if (sheet1) {
+      requests.push({ deleteSheet: { sheetId: sheet1.id } });
+    }
+
+    // Also delete any existing tabs that match our new names to avoid duplicates
+    for (const s of DEFAULT_SCHEMA) {
+      const existing = sheets.find(sh=>sh.title===s.tab);
+      if (existing) requests.unshift({ deleteSheet: { sheetId: existing.id } });
+    }
+    const existingSchema = sheets.find(sh=>sh.title==='Schema');
+    if (existingSchema) requests.unshift({ deleteSheet: { sheetId: existingSchema.id } });
+
+    await fetchJSON(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}:batchUpdate`, {
+      method: 'POST', body: JSON.stringify({ requests })
+    });
+
+    // Write Schema headers
+    const schemaValues = [['Tab Name', ...Array.from({length:10},(_,i)=>`Attribute ${i+1}`)],
+      ...DEFAULT_SCHEMA.map(s => [s.tab, ...s.attrs])];
+    await writeSheet('Schema', schemaValues);
+
+    // Write component tab headers
+    for (const s of DEFAULT_SCHEMA) {
+      const headers = [['Path', 'File Name', 'Drive File ID', ...s.attrs]];
+      await writeSheet(s.tab, headers);
+    }
+
+    // Migrate legacy rows
+    if (legacyRows.length) {
+      const buckets = {};
+      for (const row of legacyRows) {
+        const pathRoot = row[0].split('>')[0].trim();
+        let targetTab = null;
+        for (const [key, tab] of Object.entries(MIGRATION_MAP)) {
+          if (pathRoot.toLowerCase().includes(key.toLowerCase())) { targetTab = tab; break; }
+        }
+        if (!targetTab) targetTab = DEFAULT_SCHEMA[0].tab; // default to Electric Motors
+        if (!buckets[targetTab]) buckets[targetTab] = [];
+        buckets[targetTab].push([row[0], row[1], row[2]]); // path, name, id (no attrs yet)
+      }
+      for (const [tab, rows] of Object.entries(buckets)) {
+        await appendSheet(tab, rows);
+      }
+    }
+
+    hideLoading();
+    showToast('✅ Sheet setup complete!');
+    await loadAllData();
+  } catch(e) {
+    hideLoading();
+    showToast('Setup failed: ' + e.message);
+    console.error(e);
+  }
+}
+
+async function writeSheet(tab, values) {
+  await fetchJSON(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(tab)}!A1:Z1000?valueInputOption=RAW`, {
+    method: 'PUT', body: JSON.stringify({ values })
+  });
+}
+
+async function appendSheet(tab, rows) {
+  await fetchJSON(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${encodeURIComponent(tab)}!A:Z:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`, {
+    method: 'POST', body: JSON.stringify({ values: rows })
+  });
+}
+
 // ── UPLOAD ────────────────────────────────────────────────────────────────────
 function handleDragOver(e) { e.preventDefault(); document.getElementById('drop-zone').classList.add('drag-over'); }
-function handleDragLeave(e) { document.getElementById('drop-zone').classList.remove('drag-over'); }
+function handleDragLeave() { document.getElementById('drop-zone').classList.remove('drag-over'); }
 function handleDrop(e) {
   e.preventDefault();
   document.getElementById('drop-zone').classList.remove('drag-over');
-  const files = [...e.dataTransfer.files].filter(f => f.type === 'application/pdf');
+  const files = [...e.dataTransfer.files].filter(f=>f.type==='application/pdf');
   if (!files.length) { showToast('Please drop PDF files only'); return; }
   queueUpload(files);
 }
-function handleFileSelect(e) {
-  const files = [...e.target.files];
-  if (files.length) queueUpload(files);
-  e.target.value = '';
-}
+function handleFileSelect(e) { if (e.target.files.length) queueUpload([...e.target.files]); e.target.value=''; }
 function openUploadModal() { queueUpload([]); }
 
 function queueUpload(files) {
   pendingFiles = files;
-  // Build path options from existing tree paths
-  const paths = [...new Set(treeData.map(r => r.path))].sort();
-  const pathOptions = paths.map(p => `<option value="${escHtml(p)}">${escHtml(p)}</option>`).join('');
-  const fileList = files.length ? files.map(f => `<div style="font-size:12px;padding:3px 0;color:var(--text-secondary)">📄 ${escHtml(f.name)}</div>`).join('') : '';
+  const tabOptions = schema.map(s=>`<option value="${escHtml(s.tab)}">${escHtml(s.tab)}</option>`).join('');
+  const paths = [...new Set(Object.values(allData).flat().map(r=>r.path))].sort();
+  const pathOptions = paths.map(p=>`<option value="${escHtml(p)}">${escHtml(p)}</option>`).join('');
+  const fileList = files.length ? files.map(f=>`<div style="font-size:12px;padding:2px 0;color:var(--text-secondary)">📄 ${escHtml(f.name)}</div>`).join('') : '';
 
-  document.getElementById('modal-content').innerHTML = `
-    <div class="upload-modal">
-      <h3>Upload PDF to Library</h3>
-      ${files.length ? `<div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:10px 12px;margin-bottom:14px">${fileList}</div>` : ''}
-      <div class="form-group">
-        <label>Component Path *</label>
-        <select id="up-path-sel" onchange="syncPathInput()" style="margin-bottom:6px">
-          <option value="">— Choose existing path —</option>
-          ${pathOptions}
-          <option value="__new__">+ Enter new path…</option>
-        </select>
-        <input type="text" id="up-path-input" placeholder="e.g. Electric Motors > Baldor > IEEE 841" style="display:none"/>
-      </div>
-      ${!files.length ? `<div class="form-group"><label>PDF File *</label><input type="file" id="up-file-pick" accept=".pdf" multiple/></div>` : ''}
-      <div class="form-group">
-        <label>Display Name</label>
-        <input type="text" id="up-name" placeholder="Leave blank to use filename"/>
-      </div>
-      <div class="form-group">
-        <label>Description (optional)</label>
-        <input type="text" id="up-desc" placeholder="Short note about this file"/>
-      </div>
-      <div id="upload-progress" class="upload-progress" style="display:none">
-        <div class="progress-bar"><div class="progress-fill" id="up-progress-fill" style="width:0%"></div></div>
-        <div class="progress-status" id="up-progress-text">Uploading…</div>
-      </div>
-      <div style="display:flex;gap:10px;margin-top:18px">
-        <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="doUpload()">Upload to Drive</button>
-        <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
-      </div>
+  document.getElementById('modal-box').innerHTML = `
+    <h3>Upload PDF to Library</h3>
+    ${files.length ? `<div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:10px;margin-bottom:14px">${fileList}</div>` : ''}
+    <div class="form-group">
+      <label>Component Tab *</label>
+      <select id="up-tab" onchange="updateUploadAttrs()">${tabOptions}</select>
+    </div>
+    <div class="form-group">
+      <label>Path *</label>
+      <select id="up-path-sel" onchange="syncPathInput()">
+        <option value="">— Choose existing path —</option>
+        ${pathOptions}
+        <option value="__new__">+ Enter new path…</option>
+      </select>
+      <input type="text" id="up-path-input" placeholder="e.g. Electric Motors > Baldor > IEEE 841" style="display:none;margin-top:6px"/>
+    </div>
+    ${!files.length ? `<div class="form-group"><label>PDF File *</label><input type="file" id="up-file-pick" accept=".pdf" multiple/></div>` : ''}
+    <div class="form-group">
+      <label>Display Name</label>
+      <input type="text" id="up-name" placeholder="Leave blank to use filename"/>
+    </div>
+    <div id="up-attrs-grid" class="attrs-grid"></div>
+    <div id="upload-progress" class="progress-upload" style="display:none">
+      <div class="progress-bar"><div class="progress-fill" id="up-progress-fill"></div></div>
+      <div class="progress-status" id="up-progress-text">Uploading…</div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:18px">
+      <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="doUpload()">Upload to Drive</button>
+      <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
     </div>`;
-  document.getElementById('modal-backdrop').classList.add('open');
+  updateUploadAttrs();
+  openModal();
+}
+
+function updateUploadAttrs() {
+  const tab = document.getElementById('up-tab')?.value;
+  const s = schema.find(s=>s.tab===tab);
+  const grid = document.getElementById('up-attrs-grid');
+  if (!s || !grid) return;
+  grid.innerHTML = s.attrs.map(a=>`
+    <div class="form-group">
+      <label>${escHtml(a)}</label>
+      <input type="text" id="attr_${escHtml(a.replace(/\s+/g,'_'))}" placeholder="${escHtml(a)}"/>
+    </div>`).join('');
 }
 
 function syncPathInput() {
   const sel = document.getElementById('up-path-sel');
   const inp = document.getElementById('up-path-input');
-  if (sel.value === '__new__') { inp.style.display = 'block'; inp.focus(); }
-  else inp.style.display = 'none';
+  if (!sel||!inp) return;
+  if (sel.value==='__new__') { inp.style.display='block'; inp.focus(); }
+  else inp.style.display='none';
 }
 
 async function doUpload() {
+  const tab = document.getElementById('up-tab')?.value;
+  if (!tab) { showToast('Please select a tab'); return; }
   const pathSel = document.getElementById('up-path-sel');
   const pathInp = document.getElementById('up-path-input');
-  const path = (pathSel.value === '__new__' ? pathInp.value : pathSel.value).trim();
-  if (!path) { showToast('Please select or enter a component path'); return; }
+  const path = (pathSel.value==='__new__' ? pathInp.value : pathSel.value).trim();
+  if (!path) { showToast('Please select or enter a path'); return; }
 
   let filesToUpload = pendingFiles.length ? pendingFiles : [];
   if (!filesToUpload.length) {
     const fp = document.getElementById('up-file-pick');
-    if (!fp || !fp.files.length) { showToast('Please select a PDF file'); return; }
+    if (!fp||!fp.files.length) { showToast('Please select a PDF'); return; }
     filesToUpload = [...fp.files];
   }
 
-  const displayName = (document.getElementById('up-name').value||'').trim();
-  const desc = (document.getElementById('up-desc').value||'').trim();
+  const displayName = (document.getElementById('up-name')?.value||'').trim();
+  const s = schema.find(s=>s.tab===tab);
+  const attrVals = s ? s.attrs.map(a => (document.getElementById('attr_'+a.replace(/\s+/g,'_'))?.value||'').trim()) : [];
 
-  // Find or create the Drive folder for this path
   const progBar = document.getElementById('up-progress-fill');
   const progText = document.getElementById('up-progress-text');
   document.getElementById('upload-progress').style.display = 'block';
@@ -585,160 +787,127 @@ async function doUpload() {
   try {
     progText.textContent = 'Finding Drive folder…';
     progBar.style.width = '10%';
-    folderId = await getOrCreateDriveFolder(path);
-  } catch(e) {
-    showToast('Folder error: ' + e.message);
-    return;
-  }
+    folderId = await getOrCreateDriveFolder(['Morris Doc Dr', tab, ...path.split('>').map(p=>p.trim())]);
+  } catch(e) { showToast('Folder error: ' + e.message); return; }
 
-  for (let i = 0; i < filesToUpload.length; i++) {
+  for (let i=0; i<filesToUpload.length; i++) {
     const file = filesToUpload[i];
-    const name = (filesToUpload.length === 1 && displayName) ? displayName : file.name.replace(/\.pdf$/i, '');
-    progText.textContent = `Uploading ${i+1} of ${filesToUpload.length}: ${file.name}`;
-    progBar.style.width = Math.round(10 + (i / filesToUpload.length) * 70) + '%';
-
+    const name = (filesToUpload.length===1 && displayName) ? displayName : file.name.replace(/\.pdf$/i,'');
+    progText.textContent = `Uploading ${i+1}/${filesToUpload.length}: ${file.name}`;
+    progBar.style.width = Math.round(10 + i/filesToUpload.length*70)+'%';
     try {
       const fileId = await uploadFileToDrive(file, folderId);
-      progBar.style.width = Math.round(80 + (i+1)/filesToUpload.length * 10) + '%';
+      progBar.style.width = '85%';
       progText.textContent = 'Updating Component Index…';
-      await appendSheetRow([path, name, fileId, desc]);
-      treeData.push({ path, fileName: name, fileId, description: desc });
-    } catch(e) {
-      showToast('Upload failed for ' + file.name + ': ' + e.message);
-      continue;
-    }
+      await appendSheet(tab, [[path, name, fileId, ...attrVals]]);
+      if (!allData[tab]) allData[tab] = [];
+      allData[tab].push({ path, fileName:name, fileId, tab, attrs: Object.fromEntries((s?.attrs||[]).map((a,i)=>[a,attrVals[i]||''])) });
+    } catch(e) { showToast('Upload failed: ' + e.message); }
   }
 
   progBar.style.width = '100%';
   progText.textContent = 'Done!';
-  buildTree();
-  renderTree(treeNodes);
-  document.getElementById('sheet-status').textContent = `${treeData.length} components loaded`;
-  setTimeout(() => { closeModal(); showToast(`✅ ${filesToUpload.length} file${filesToUpload.length!==1?'s':''} uploaded and indexed`); }, 600);
+  buildTree(); renderTree();
+  const total = Object.values(allData).reduce((n,a)=>n+a.length,0);
+  document.getElementById('sheet-status').textContent = `${total} components across ${schema.length} tabs`;
+  setTimeout(()=>{ closeModal(); showToast(`✅ ${filesToUpload.length} file${filesToUpload.length!==1?'s':''} uploaded`); }, 600);
 }
 
-async function getOrCreateDriveFolder(path) {
-  // Search for a folder named after the full path, or just use root Drive
-  // We'll store files in a top-level folder named "Morris Doc Dr" > path parts
-  const parts = ['Morris Doc Dr', ...path.split('>').map(p=>p.trim())];
+async function getOrCreateDriveFolder(parts) {
   let parentId = 'root';
   for (const part of parts) {
     const q = encodeURIComponent(`name='${part}' and mimeType='application/vnd.google-apps.folder' and '${parentId}' in parents and trashed=false`);
-    const res = await fetchJSON(`https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id,name)`);
-    if (res.files && res.files.length > 0) {
-      parentId = res.files[0].id;
-    } else {
-      const created = await fetchJSON('https://www.googleapis.com/drive/v3/files', {
-        method: 'POST',
-        body: JSON.stringify({ name: part, mimeType: 'application/vnd.google-apps.folder', parents: [parentId] })
+    const res = await fetchJSON(`https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id)`);
+    if (res.files?.length) { parentId = res.files[0].id; }
+    else {
+      const c = await fetchJSON('https://www.googleapis.com/drive/v3/files', {
+        method:'POST', body: JSON.stringify({ name:part, mimeType:'application/vnd.google-apps.folder', parents:[parentId] })
       });
-      parentId = created.id;
+      parentId = c.id;
     }
   }
   return parentId;
 }
 
 async function uploadFileToDrive(file, folderId) {
-  const meta = { name: file.name, parents: [folderId] };
   const form = new FormData();
-  form.append('metadata', new Blob([JSON.stringify(meta)], {type:'application/json'}));
+  form.append('metadata', new Blob([JSON.stringify({ name:file.name, parents:[folderId] })], {type:'application/json'}));
   form.append('file', file);
   const r = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id', {
-    method: 'POST',
-    headers: { Authorization: 'Bearer ' + accessToken },
-    body: form
+    method:'POST', headers:{ Authorization:'Bearer '+accessToken }, body:form
   });
-  if (!r.ok) { const t = await r.text(); throw new Error(t); }
-  const data = await r.json();
-  return data.id;
-}
-
-async function appendSheetRow(values) {
-  await fetchJSON(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Sheet1!A:D:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`, {
-    method: 'POST',
-    body: JSON.stringify({ values: [values] })
-  });
+  if (!r.ok) throw new Error(await r.text());
+  return (await r.json()).id;
 }
 
 // ── PDF BUILD ─────────────────────────────────────────────────────────────────
 async function buildPackage() {
   const files = Object.values(selected);
   if (!files.length) { showToast('Select at least one file first'); return; }
-  document.getElementById('build-btn').disabled = true;
   document.getElementById('build-btn-2').disabled = true;
   document.getElementById('build-progress').style.display = 'block';
   document.getElementById('build-done-actions').style.display = 'none';
   const fill = document.getElementById('progress-fill');
   const status = document.getElementById('build-status-text');
-
   try {
     const { PDFDocument, rgb, StandardFonts } = PDFLib;
     const finalPdf = await PDFDocument.create();
     const fontB = await finalPdf.embedFont(StandardFonts.HelveticaBold);
     const fontR = await finalPdf.embedFont(StandardFonts.Helvetica);
 
-    // Cover
-    status.textContent = 'Building cover page…'; fill.style.width = '5%';
-    const cover = finalPdf.addPage([612, 792]);
+    status.textContent = 'Building cover…'; fill.style.width = '5%';
+    const cover = finalPdf.addPage([612,792]);
     cover.drawRectangle({x:0,y:0,width:612,height:792,color:rgb(0.094,0.373,0.647)});
-    cover.drawRectangle({x:0,y:0,width:612,height:220,color:rgb(0.063,0.267,0.478)});
-    cover.drawText('Morris Doc Dr', {x:54, y:660, size:30, font:fontB, color:rgb(1,1,1)});
-    cover.drawText('Fusion Fluid Equipment', {x:54, y:624, size:15, font:fontR, color:rgb(0.71,0.84,0.95)});
-    cover.drawText('Documentation Package', {x:54, y:596, size:13, font:fontR, color:rgb(0.71,0.84,0.95)});
+    cover.drawRectangle({x:0,y:0,width:612,height:200,color:rgb(0.063,0.267,0.478)});
+    cover.drawText('Morris Doc Dr', {x:54,y:660,size:30,font:fontB,color:rgb(1,1,1)});
+    cover.drawText('Fusion Fluid Equipment', {x:54,y:624,size:15,font:fontR,color:rgb(0.71,0.84,0.95)});
+    cover.drawText('Documentation Package', {x:54,y:596,size:13,font:fontR,color:rgb(0.71,0.84,0.95)});
     const today = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
-    cover.drawText(today, {x:54, y:564, size:11, font:fontR, color:rgb(0.6,0.8,1)});
-    cover.drawText(`${files.length} document${files.length!==1?'s':''} included`, {x:54, y:544, size:11, font:fontR, color:rgb(0.6,0.8,1)});
+    cover.drawText(today, {x:54,y:564,size:11,font:fontR,color:rgb(0.6,0.8,1)});
+    cover.drawText(`${files.length} document${files.length!==1?'s':''} included`, {x:54,y:544,size:11,font:fontR,color:rgb(0.6,0.8,1)});
 
-    // TOC
     status.textContent = 'Building table of contents…'; fill.style.width = '10%';
     const toc = finalPdf.addPage([612,792]);
     toc.drawText('Table of Contents', {x:54,y:720,size:22,font:fontB,color:rgb(0.094,0.373,0.647)});
     toc.drawLine({start:{x:54,y:706},end:{x:558,y:706},thickness:1,color:rgb(0.094,0.373,0.647)});
-    let ty = 680;
+    let ty=680;
     for (const f of files) {
+      if (ty<60) break;
       toc.drawText(`• ${f.fileName}`, {x:64,y:ty,size:11,font:fontR,color:rgb(0.1,0.1,0.1)});
-      toc.drawText(f.path, {x:64,y:ty-13,size:9,font:fontR,color:rgb(0.5,0.5,0.5)});
-      ty -= 32;
-      if (ty < 60) break;
+      toc.drawText(`${f.tab} · ${f.path}`, {x:64,y:ty-13,size:9,font:fontR,color:rgb(0.5,0.5,0.5)});
+      ty-=32;
     }
 
-    // Content
-    for (let i = 0; i < files.length; i++) {
+    for (let i=0; i<files.length; i++) {
       const file = files[i];
-      const pct = Math.round(15 + (i / files.length) * 80);
+      fill.style.width = Math.round(15 + i/files.length*80)+'%';
       status.textContent = `Fetching ${file.fileName} (${i+1}/${files.length})…`;
-      fill.style.width = pct + '%';
       try {
-        const r = await fetch(`https://www.googleapis.com/drive/v3/files/${file.fileId}?alt=media`, {
-          headers: { Authorization: 'Bearer ' + accessToken }
-        });
-        if (!r.ok) throw new Error('Drive returned ' + r.status);
+        const r = await fetch(`https://www.googleapis.com/drive/v3/files/${file.fileId}?alt=media`, { headers:{ Authorization:'Bearer '+accessToken } });
+        if (!r.ok) throw new Error('Drive '+r.status);
         const buf = await r.arrayBuffer();
-        const srcPdf = await PDFDocument.load(buf);
-        const pages = await finalPdf.copyPages(srcPdf, srcPdf.getPageIndices());
-        pages.forEach(p => finalPdf.addPage(p));
+        const src = await PDFDocument.load(buf);
+        const pages = await finalPdf.copyPages(src, src.getPageIndices());
+        pages.forEach(p=>finalPdf.addPage(p));
       } catch(e) {
-        // Add error placeholder page
         const ep = finalPdf.addPage([612,792]);
         ep.drawText(`Could not load: ${file.fileName}`, {x:54,y:400,size:14,font:fontB,color:rgb(0.6,0,0)});
         ep.drawText(e.message, {x:54,y:380,size:11,font:fontR,color:rgb(0.5,0.5,0.5)});
       }
     }
 
-    status.textContent = 'Saving package…'; fill.style.width = '95%';
+    status.textContent = 'Saving…'; fill.style.width = '97%';
     const bytes = await finalPdf.save();
-    packageBlob = new Blob([bytes], {type:'application/pdf'});
+    packageBlob = new Blob([bytes],{type:'application/pdf'});
     const url = URL.createObjectURL(packageBlob);
     fill.style.width = '100%';
     status.textContent = '✅ Package ready!';
-    const dlBtn = document.getElementById('dl-btn');
     const dateStr = new Date().toISOString().slice(0,10);
-    dlBtn.onclick = () => { const a=document.createElement('a'); a.href=url; a.download=`morris-doc-dr-${dateStr}.pdf`; a.click(); };
+    document.getElementById('dl-btn').onclick = ()=>{ const a=document.createElement('a'); a.href=url; a.download=`morris-doc-dr-${dateStr}.pdf`; a.click(); };
     document.getElementById('build-done-actions').style.display = 'flex';
   } catch(e) {
     showToast('Build failed: ' + e.message);
     document.getElementById('build-progress').style.display = 'none';
-    document.getElementById('build-btn').disabled = false;
     document.getElementById('build-btn-2').disabled = false;
   }
 }
@@ -747,25 +916,23 @@ function resetBuild() {
   document.getElementById('build-progress').style.display = 'none';
   document.getElementById('build-done-actions').style.display = 'none';
   document.getElementById('progress-fill').style.width = '0%';
-  document.getElementById('build-btn').disabled = false;
   document.getElementById('build-btn-2').disabled = false;
 }
 
 // ── MODAL ─────────────────────────────────────────────────────────────────────
+function openModal() { document.getElementById('modal-backdrop').classList.add('open'); }
 function closeModal() { document.getElementById('modal-backdrop').classList.remove('open'); }
 
-// ── LOADING ───────────────────────────────────────────────────────────────────
-function showLoading(msg) { document.getElementById('loading-text').textContent = msg||'Loading…'; document.getElementById('loading-overlay').style.display = 'flex'; }
-function hideLoading() { document.getElementById('loading-overlay').style.display = 'none'; }
+// Click backdrop to close (but not the box itself)
+document.getElementById('modal-backdrop').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
 
-// ── TOAST ─────────────────────────────────────────────────────────────────────
+// ── LOADING / TOAST ───────────────────────────────────────────────────────────
+function showLoading(msg) { document.getElementById('loading-text').textContent=msg||'Loading…'; document.getElementById('loading-overlay').style.display='flex'; }
+function hideLoading() { document.getElementById('loading-overlay').style.display='none'; }
 let toastTimer;
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
-}
+function showToast(msg) { const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'),3500); }
 
 // ── UTILS ─────────────────────────────────────────────────────────────────────
 function escHtml(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
