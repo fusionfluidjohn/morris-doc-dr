@@ -504,9 +504,10 @@ function buildTreeHTML(nodes, depth) {
     for (const file of (node._files||[])) {
       if (searchQuery && !file.fileName.toLowerCase().includes(searchQuery)) continue;
       const isSel = !!selected[file.fileId];
+      const fileJson = escHtml(JSON.stringify(file));
       html += `<div class="file-row${isSel?' file-selected':''}" style="padding-left:${14+indent+22}px">
-        <div class="file-check${isSel?' checked':''}" onclick="event.stopPropagation();toggleFile(${JSON.stringify(JSON.stringify(file))})"></div>
-        <div class="file-name" onclick="showDetail(${JSON.stringify(JSON.stringify(file))})">${escHtml(file.fileName)}</div>
+        <div class="file-check${isSel?' checked':''}" onclick="event.stopPropagation();toggleFile('${fileJson}')"></div>
+        <div class="file-name" onclick="showDetail('${fileJson}')">${escHtml(file.fileName)}</div>
       </div>`;
     }
     html += `</div></div>`;
@@ -528,7 +529,7 @@ function toggleNode(id) {
 function filterTree(q) { searchQuery = q.toLowerCase().trim(); renderTree(); }
 
 function toggleFile(jsonStr) {
-  const file = JSON.parse(jsonStr);
+  const file = typeof jsonStr === 'string' ? JSON.parse(jsonStr) : jsonStr;
   if (selected[file.fileId]) delete selected[file.fileId]; else selected[file.fileId] = file;
   renderTree();
   renderSelected();
@@ -538,7 +539,7 @@ function clearAll() { selected = {}; renderTree(); renderSelected(); }
 
 // ── DETAIL PANEL ─────────────────────────────────────────────────────────────
 function showDetail(jsonStr) {
-  const file = JSON.parse(jsonStr);
+  const file = typeof jsonStr === 'string' ? JSON.parse(jsonStr) : jsonStr;
   const panel = document.getElementById('detail-panel');
   document.getElementById('detail-title').textContent = file.fileName;
   const tabSchema = schema.find(s=>s.tab===file.tab);
@@ -570,7 +571,7 @@ function renderSelected() {
         <div class="sel-item-name">${escHtml(f.fileName)}</div>
         <div class="sel-item-path">${escHtml(f.tab)} · ${escHtml(f.path)}</div>
       </div>
-      <button class="btn btn-ghost btn-sm" onclick="toggleFile(${JSON.stringify(JSON.stringify(f))})">✕</button>
+      <button class="btn btn-ghost btn-sm" onclick="toggleFile('${escHtml(JSON.stringify(f))}')">✕</button>
     </div>`).join('');
 }
 
