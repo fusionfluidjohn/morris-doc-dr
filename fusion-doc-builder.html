@@ -277,8 +277,8 @@
 </div>
 
 <!-- UPLOAD MODAL -->
-<div class="modal-backdrop" id="modal-backdrop" onclick="closeModal(event)">
-  <div class="upload-modal" id="modal-content" onclick="event.stopPropagation()"></div>
+<div class="modal-backdrop" id="modal-backdrop">
+  <div class="upload-modal" id="modal-content"></div>
 </div>
 
 <!-- LOADING OVERLAY -->
@@ -752,10 +752,6 @@ function resetBuild() {
 }
 
 // ── MODAL ─────────────────────────────────────────────────────────────────────
-function closeModal(e) {
-  if (e && e.target !== document.getElementById('modal-backdrop')) return;
-  document.getElementById('modal-backdrop').classList.remove('open');
-}
 function closeModal() { document.getElementById('modal-backdrop').classList.remove('open'); }
 
 // ── LOADING ───────────────────────────────────────────────────────────────────
