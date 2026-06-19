@@ -312,9 +312,7 @@ function signIn() {
     callback: async (resp) => {
       if (resp.error) { showToast('Sign-in failed: ' + resp.error); return; }
       accessToken = resp.access_token;
-      const info = await fetchJSON('https://www.googleapis.com/oauth2/v3/userinfo');
-      const initials = (info.name||'U').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-      document.getElementById('nav-avatar').textContent = initials;
+      document.getElementById('nav-avatar').textContent = 'FF';
       document.getElementById('nav-avatar').style.display = 'flex';
       document.getElementById('nav-signout-btn').style.display = 'inline-flex';
       setNavStatus('connected', '● Connected');
