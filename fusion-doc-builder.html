@@ -8,165 +8,152 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --blue: #185FA5;
-    --blue-dark: #0C447C;
-    --blue-light: #E6F1FB;
-    --blue-mid: #B5D4F4;
-    --text: #1a1a1a;
-    --text-secondary: #6b7280;
-    --border: rgba(0,0,0,0.12);
-    --border-strong: rgba(0,0,0,0.22);
-    --bg: #f5f6f8;
-    --surface: #ffffff;
-    --surface2: #f8f9fb;
-    --radius: 8px;
-    --radius-lg: 12px;
-    --red-light: #FCEBEB;
-    --red: #A32D2D;
+    --blue: #185FA5; --blue-dark: #0C447C; --blue-light: #E6F1FB; --blue-mid: #B5D4F4;
+    --text: #1a1a1a; --text-secondary: #6b7280; --border: rgba(0,0,0,0.12);
+    --border-strong: rgba(0,0,0,0.22); --bg: #f5f6f8; --surface: #ffffff;
+    --surface2: #f8f9fb; --radius: 8px; --radius-lg: 12px;
+    --red-light: #FCEBEB; --red: #A32D2D; --green: #166534; --green-light: #DCFCE7;
   }
-
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 14px; }
 
-  /* TOP NAV */
-  .nav { background: var(--surface); border-bottom: 0.5px solid var(--border); padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; height: 52px; }
-  .nav-brand { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 15px; color: var(--text); }
-  .nav-brand-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--blue); }
-  .nav-right { display: flex; align-items: center; gap: 10px; }
-  .avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--blue-light); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--blue); cursor: default; }
+  /* NAV */
+  .nav { background: var(--surface); border-bottom: 0.5px solid var(--border); padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; height: 52px; position: sticky; top: 0; z-index: 100; }
+  .nav-brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 15px; color: var(--text); }
+  .nav-brand-icon { width: 28px; height: 28px; border-radius: 6px; background: var(--blue); display: flex; align-items: center; justify-content: center; }
+  .nav-brand-icon svg { width: 16px; height: 16px; fill: white; }
+  .nav-right { display: flex; align-items: center; gap: 8px; }
+  .nav-status { font-size: 12px; color: var(--text-secondary); background: var(--surface2); border: 0.5px solid var(--border); padding: 4px 10px; border-radius: 20px; }
+  .nav-status.connected { color: var(--green); background: var(--green-light); border-color: #86efac; }
+  .avatar { width: 30px; height: 30px; border-radius: 50%; background: var(--blue-light); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--blue); cursor: default; border: 1.5px solid var(--blue-mid); }
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: var(--radius); font-size: 13px; font-weight: 500; cursor: pointer; border: none; transition: all .15s; }
+  .btn-primary { background: var(--blue); color: white; }
+  .btn-primary:hover { background: var(--blue-dark); }
+  .btn-outline { background: white; color: var(--text); border: 1px solid var(--border-strong); }
+  .btn-outline:hover { background: var(--surface2); }
+  .btn-sm { padding: 5px 10px; font-size: 12px; }
+  .btn-danger { background: var(--red-light); color: var(--red); border: 1px solid #fca5a5; }
+  .btn-danger:hover { background: #fecaca; }
+  .btn-ghost { background: transparent; color: var(--text-secondary); border: none; padding: 4px 8px; }
+  .btn-ghost:hover { background: var(--surface2); color: var(--text); }
+  .btn:disabled { opacity: 0.45; cursor: not-allowed; }
 
-  /* AUTH SCREEN */
+  /* AUTH */
   .auth-screen { display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 52px); padding: 2rem; }
-  .auth-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 3rem 2.5rem; max-width: 420px; width: 100%; text-align: center; }
-  .auth-icon { width: 64px; height: 64px; border-radius: 16px; background: var(--blue-light); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; }
-  .auth-icon svg { width: 32px; height: 32px; fill: var(--blue); }
-  .auth-card h1 { font-size: 20px; font-weight: 600; margin-bottom: 8px; }
-  .auth-card p { color: var(--text-secondary); font-size: 13px; line-height: 1.6; margin-bottom: 2rem; }
-  .sign-in-btn { display: inline-flex; align-items: center; gap: 10px; padding: 10px 20px; background: var(--blue); color: #fff; border: none; border-radius: var(--radius); font-size: 14px; font-weight: 500; cursor: pointer; transition: background .15s; }
-  .sign-in-btn:hover { background: var(--blue-dark); }
-  .sign-in-btn svg { width: 18px; height: 18px; }
-  .auth-note { margin-top: 1.5rem; font-size: 11px; color: var(--text-secondary); line-height: 1.5; }
+  .auth-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2.5rem; max-width: 420px; width: 100%; text-align: center; box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
+  .auth-logo { width: 56px; height: 56px; border-radius: 14px; background: var(--blue); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem; }
+  .auth-logo svg { width: 30px; height: 30px; fill: white; }
+  .auth-card h1 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .auth-card p { color: var(--text-secondary); font-size: 14px; margin-bottom: 1.5rem; line-height: 1.5; }
+  .auth-sheet-note { background: var(--blue-light); border: 1px solid var(--blue-mid); border-radius: var(--radius); padding: 10px 14px; font-size: 12px; color: var(--blue-dark); margin-bottom: 1.25rem; text-align: left; }
+  .auth-sheet-note strong { display: block; margin-bottom: 2px; }
 
-  /* MAIN LAYOUT */
-  .app { display: none; flex-direction: column; height: calc(100vh - 52px); }
-  .app.visible { display: flex; }
-  .toolbar { background: var(--surface); border-bottom: 0.5px solid var(--border); padding: 8px 1.25rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-shrink: 0; }
-  .toolbar-left { display: flex; align-items: center; gap: 8px; }
-  .toolbar-right { display: flex; align-items: center; gap: 8px; }
-  .main { display: grid; grid-template-columns: 300px 1fr 280px; gap: 0; flex: 1; overflow: hidden; }
-
-  /* PANELS */
-  .panel { background: var(--surface); border-right: 0.5px solid var(--border); display: flex; flex-direction: column; overflow: hidden; }
-  .panel-hd { padding: 10px 14px; border-bottom: 0.5px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
-  .panel-hd-title { font-size: 11px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: .05em; }
-  .panel-body { flex: 1; overflow-y: auto; }
-  .panel-footer { border-top: 0.5px solid var(--border); padding: 10px 14px; flex-shrink: 0; background: var(--surface2); }
-
-  /* BUTTONS */
-  .btn { display: inline-flex; align-items: center; gap: 5px; padding: 6px 12px; border: 0.5px solid var(--border-strong); border-radius: var(--radius); background: transparent; color: var(--text); font-size: 12px; cursor: pointer; transition: background .1s; white-space: nowrap; }
-  .btn:hover { background: var(--surface2); }
-  .btn:disabled { opacity: .4; cursor: not-allowed; }
-  .btn-primary { background: var(--blue); color: #fff; border-color: var(--blue); }
-  .btn-primary:hover:not(:disabled) { background: var(--blue-dark); border-color: var(--blue-dark); }
-  .btn-xs { padding: 3px 8px; font-size: 11px; }
-  .btn-ghost { border-color: transparent; }
-  .btn-ghost:hover { background: var(--surface2); border-color: var(--border); }
-
-  /* SEARCH */
-  .search-wrap { display: flex; align-items: center; gap: 6px; padding: 6px 10px; border: 0.5px solid var(--border-strong); border-radius: var(--radius); background: var(--surface2); }
-  .search-wrap input { border: none; background: transparent; font-size: 12px; color: var(--text); outline: none; width: 160px; }
-  .search-wrap svg { width: 14px; height: 14px; fill: var(--text-secondary); flex-shrink: 0; }
+  /* LAYOUT */
+  .app-layout { display: grid; grid-template-columns: 320px 1fr; gap: 0; height: calc(100vh - 52px); }
+  .sidebar { background: var(--surface); border-right: 0.5px solid var(--border); display: flex; flex-direction: column; overflow: hidden; }
+  .sidebar-header { padding: 14px 16px 10px; border-bottom: 0.5px solid var(--border); flex-shrink: 0; }
+  .sidebar-header h2 { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .sidebar-header p { font-size: 11px; color: var(--text-secondary); }
+  .sidebar-search { padding: 10px 14px; border-bottom: 0.5px solid var(--border); flex-shrink: 0; }
+  .sidebar-search input { width: 100%; padding: 7px 10px 7px 30px; border: 1px solid var(--border-strong); border-radius: var(--radius); font-size: 13px; background: var(--surface2); outline: none; }
+  .sidebar-search input:focus { border-color: var(--blue); background: white; }
+  .search-wrap { position: relative; }
+  .search-icon { position: absolute; left: 9px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); font-size: 13px; pointer-events: none; }
+  .tree-scroll { flex: 1; overflow-y: auto; padding: 8px 0; }
 
   /* TREE */
-  .tree { padding: 4px 0; }
   .tree-node { }
-  .tree-row { display: flex; align-items: center; padding: 0 8px 0 0; cursor: pointer; border-radius: 5px; margin: 1px 6px; transition: background .1s; min-height: 30px; }
+  .tree-row { display: flex; align-items: center; gap: 4px; padding: 5px 14px 5px 0; cursor: pointer; border-radius: 0; transition: background .1s; min-height: 32px; }
   .tree-row:hover { background: var(--surface2); }
-  .tree-row.active { background: var(--blue-light); }
-  .tree-toggle { width: 22px; height: 30px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--text-secondary); }
-  .tree-toggle svg { width: 12px; height: 12px; fill: currentColor; transition: transform .15s; }
-  .tree-toggle.open svg { transform: rotate(90deg); }
-  .tree-icon { width: 18px; height: 18px; flex-shrink: 0; margin-right: 6px; }
-  .tree-label { flex: 1; font-size: 13px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .tree-badge { font-size: 10px; padding: 1px 6px; border-radius: 10px; background: var(--surface2); border: 0.5px solid var(--border); color: var(--text-secondary); flex-shrink: 0; margin-left: 4px; }
-  .tree-badge.has-sel { background: var(--blue-light); border-color: var(--blue-mid); color: var(--blue); }
-  .tree-actions { display: flex; gap: 2px; opacity: 0; transition: opacity .1s; }
-  .tree-row:hover .tree-actions { opacity: 1; }
-  .tree-children { border-left: 1.5px solid var(--border); }
-  .tree-add-row { display: flex; gap: 4px; padding: 4px 8px 6px 30px; }
-  .tree-add-row input { flex: 1; font-size: 12px; padding: 4px 7px; border: 0.5px solid var(--border-strong); border-radius: var(--radius); background: var(--surface); color: var(--text); }
+  .tree-row.selected-folder { background: var(--blue-light); }
+  .tree-toggle { width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--text-secondary); font-size: 10px; border-radius: 3px; }
+  .tree-toggle:hover { background: var(--border); }
+  .tree-icon { font-size: 14px; flex-shrink: 0; }
+  .tree-label { flex: 1; font-size: 13px; color: var(--text); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .tree-count { font-size: 11px; color: var(--text-secondary); background: var(--surface2); border: 0.5px solid var(--border); border-radius: 10px; padding: 1px 6px; flex-shrink: 0; }
+  .tree-count.has-selected { background: var(--blue-light); color: var(--blue); border-color: var(--blue-mid); }
+  .tree-children { }
+  .file-row { display: flex; align-items: center; gap: 6px; padding: 4px 14px 4px 0; cursor: pointer; transition: background .1s; min-height: 30px; }
+  .file-row:hover { background: var(--surface2); }
+  .file-row.file-selected { background: var(--blue-light); }
+  .file-check { width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid var(--border-strong); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all .15s; }
+  .file-check.checked { background: var(--blue); border-color: var(--blue); }
+  .file-check.checked::after { content: '✓'; color: white; font-size: 10px; font-weight: 700; }
+  .file-name { flex: 1; font-size: 12.5px; color: var(--text); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .file-desc { font-size: 11px; color: var(--text-secondary); }
 
-  /* FILE LIST */
-  .file-toolbar { padding: 7px 10px; border-bottom: 0.5px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-shrink: 0; }
-  .breadcrumb { padding: 7px 14px; border-bottom: 0.5px solid var(--border); display: flex; align-items: center; gap: 4px; flex-wrap: wrap; min-height: 34px; flex-shrink: 0; background: var(--surface2); }
-  .crumb { font-size: 12px; color: var(--blue); cursor: pointer; }
-  .crumb:hover { text-decoration: underline; }
-  .crumb-sep { font-size: 12px; color: var(--text-secondary); }
-  .crumb-cur { font-size: 12px; color: var(--text); font-weight: 500; }
-  .file-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-bottom: 0.5px solid var(--border); cursor: pointer; transition: background .1s; }
-  .file-item:hover { background: var(--surface2); }
-  .file-item.sel { background: var(--blue-light); }
-  .file-check { width: 16px; height: 16px; border: 1.5px solid var(--border-strong); border-radius: 3px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-  .file-item.sel .file-check { background: var(--blue); border-color: var(--blue); }
-  .file-check svg { width: 10px; height: 10px; fill: #fff; }
-  .file-icon svg { width: 16px; height: 16px; fill: var(--red); flex-shrink: 0; }
-  .file-name { flex: 1; font-size: 13px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .file-meta { font-size: 11px; color: var(--text-secondary); flex-shrink: 0; }
-  .empty-state { padding: 3rem 1rem; text-align: center; color: var(--text-secondary); font-size: 13px; line-height: 1.8; }
-  .empty-state svg { width: 28px; height: 28px; fill: var(--border-strong); margin-bottom: 8px; }
+  /* MAIN */
+  .main { display: flex; flex-direction: column; overflow: hidden; }
+  .main-toolbar { padding: 12px 20px; border-bottom: 0.5px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; background: var(--surface); }
+  .toolbar-left { display: flex; align-items: center; gap: 10px; }
+  .sel-count { font-size: 13px; color: var(--text-secondary); }
+  .sel-count strong { color: var(--text); }
+  .main-content { flex: 1; overflow-y: auto; padding: 20px; }
 
-  /* PACKAGE PANEL */
-  .pkg-panel { display: flex; flex-direction: column; overflow: hidden; background: var(--surface); }
-  .chips { display: flex; flex-wrap: wrap; gap: 5px; padding: 10px 12px; flex: 1; overflow-y: auto; align-content: flex-start; }
-  .chip { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 20px; font-size: 11px; border: 0.5px solid; max-width: 100%; }
-  .chip-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
-  .chip-x { cursor: pointer; font-size: 14px; line-height: 1; flex-shrink: 0; opacity: .7; }
-  .chip-x:hover { opacity: 1; }
-  .pkg-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 10px 12px; border-top: 0.5px solid var(--border); }
-  .stat-card { background: var(--surface2); border-radius: var(--radius); padding: 8px 10px; }
-  .stat-label { font-size: 10px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 2px; }
-  .stat-value { font-size: 20px; font-weight: 600; color: var(--text); }
-  .pkg-actions { padding: 10px 12px; border-top: 0.5px solid var(--border); display: flex; gap: 6px; }
+  /* SELECTED PANEL */
+  .selected-panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 16px; overflow: hidden; }
+  .panel-header { padding: 14px 16px; border-bottom: 0.5px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .panel-header h3 { font-size: 13px; font-weight: 600; }
+  .selected-list { padding: 8px 0; }
+  .sel-item { display: flex; align-items: center; gap: 10px; padding: 8px 16px; border-bottom: 0.5px solid var(--border); }
+  .sel-item:last-child { border-bottom: none; }
+  .sel-item-icon { font-size: 16px; flex-shrink: 0; }
+  .sel-item-info { flex: 1; min-width: 0; }
+  .sel-item-name { font-size: 13px; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .sel-item-path { font-size: 11px; color: var(--text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .sel-empty { padding: 32px 16px; text-align: center; color: var(--text-secondary); font-size: 13px; }
+  .sel-empty-icon { font-size: 28px; margin-bottom: 8px; }
+
+  /* BUILD CARD */
+  .build-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; }
+  .build-card h3 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .build-card p { font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; }
+  .build-btn { width: 100%; justify-content: center; padding: 12px; font-size: 15px; font-weight: 600; border-radius: var(--radius); }
+  .progress-bar { height: 6px; background: var(--surface2); border-radius: 3px; margin: 12px 0; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--blue); border-radius: 3px; width: 0%; transition: width .3s; }
+  .progress-status { font-size: 12px; color: var(--text-secondary); }
+  .build-actions { display: flex; gap: 10px; margin-top: 12px; }
+
+  /* UPLOAD ZONE */
+  .upload-zone { border: 2px dashed var(--border-strong); border-radius: var(--radius-lg); padding: 24px; text-align: center; margin-bottom: 16px; transition: all .2s; cursor: pointer; background: var(--surface); }
+  .upload-zone:hover, .upload-zone.drag-over { border-color: var(--blue); background: var(--blue-light); }
+  .upload-zone-icon { font-size: 28px; margin-bottom: 8px; }
+  .upload-zone h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .upload-zone p { font-size: 12px; color: var(--text-secondary); }
+  .upload-modal { background: var(--surface); border-radius: var(--radius-lg); padding: 24px; max-width: 480px; width: 100%; }
+  .upload-modal h3 { font-size: 16px; font-weight: 700; margin-bottom: 16px; }
+  .form-group { margin-bottom: 14px; }
+  .form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 5px; text-transform: uppercase; letter-spacing: .04em; }
+  .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px 10px; border: 1px solid var(--border-strong); border-radius: var(--radius); font-size: 13px; outline: none; }
+  .form-group input:focus, .form-group select:focus { border-color: var(--blue); }
+  .form-row { display: flex; gap: 10px; }
+  .form-row .form-group { flex: 1; }
 
   /* MODAL */
-  .modal-backdrop { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 200; align-items: center; justify-content: center; }
-  .modal-backdrop.open { display: flex; }
-  .modal { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.5rem; width: 420px; max-width: 90vw; }
-  .modal h3 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
-  .modal p { font-size: 13px; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.5; }
-  .modal input, .modal select { width: 100%; padding: 7px 10px; border: 0.5px solid var(--border-strong); border-radius: var(--radius); font-size: 13px; background: var(--surface); color: var(--text); margin-bottom: 8px; }
-  .modal-row { display: flex; gap: 8px; }
-  .modal-row input { margin-bottom: 8px; }
-  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 12px; }
-  .progress-bar { height: 4px; background: var(--surface2); border-radius: 2px; margin: 10px 0; }
-  .progress-fill { height: 100%; background: var(--blue); border-radius: 2px; transition: width .3s; }
-  .modal-detail { font-size: 11px; color: var(--text-secondary); }
-  .modal-success { display: none; }
-
-  /* SHEET CONFIG */
-  .sheet-info { background: var(--surface2); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 10px 12px; font-size: 12px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 10px; }
-  .sheet-info code { background: var(--border); border-radius: 3px; padding: 1px 5px; font-family: monospace; font-size: 11px; color: var(--text); }
-
-  /* STATUS */
-  .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 5px; }
-  .status-dot.ok { background: #639922; }
-  .status-dot.loading { background: #BA7517; animation: pulse 1s infinite; }
-  .status-dot.err { background: var(--red); }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+  .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px; opacity: 0; pointer-events: none; transition: opacity .2s; }
+  .modal-backdrop.open { opacity: 1; pointer-events: all; }
 
   /* TOAST */
-  .toast { position: fixed; bottom: 1.5rem; right: 1.5rem; background: #1a1a1a; color: #fff; padding: 10px 16px; border-radius: var(--radius); font-size: 13px; z-index: 300; display: none; }
-  .toast.show { display: block; }
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(80px); background: #1a1a1a; color: white; padding: 10px 18px; border-radius: 8px; font-size: 13px; font-weight: 500; z-index: 2000; transition: transform .25s; white-space: nowrap; }
+  .toast.show { transform: translateX(-50%) translateY(0); }
 
-  /* LOADING SPINNER */
-  .spin { display: inline-block; width: 14px; height: 14px; border: 2px solid var(--border); border-top-color: var(--blue); border-radius: 50%; animation: spin .6s linear infinite; vertical-align: middle; }
+  /* LOADING */
+  .loading-overlay { position: fixed; inset: 0; background: rgba(255,255,255,0.8); display: flex; align-items: center; justify-content: center; z-index: 500; flex-direction: column; gap: 12px; }
+  .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--blue); border-radius: 50%; animation: spin .8s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-text { font-size: 13px; color: var(--text-secondary); }
 
-  scrollbar-width: thin;
-  ::-webkit-scrollbar { width: 5px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+  /* TAG */
+  .tag { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 500; }
+  .tag-blue { background: var(--blue-light); color: var(--blue); border: 0.5px solid var(--blue-mid); }
+  .tag-green { background: var(--green-light); color: var(--green); }
+
+  .divider { height: 0.5px; background: var(--border); margin: 6px 0; }
+  .empty-state { padding: 48px 24px; text-align: center; color: var(--text-secondary); }
+  .empty-state-icon { font-size: 36px; margin-bottom: 12px; }
+  .empty-state h3 { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .empty-state p { font-size: 13px; line-height: 1.5; }
+  .upload-progress { margin-top: 10px; }
 </style>
 </head>
 <body>
@@ -174,145 +161,150 @@
 <!-- NAV -->
 <nav class="nav">
   <div class="nav-brand">
-    <div class="nav-brand-dot"></div>
+    <div class="nav-brand-icon">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z"/></svg>
+    </div>
     Morris Doc Dr
   </div>
-  <div class="nav-right" id="nav-right">
-    <button class="btn btn-ghost btn-xs" onclick="showSheetModal()" id="sheet-btn" style="display:none">
-      <svg viewBox="0 0 20 20" style="width:13px;height:13px;fill:currentColor"><path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 6a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2zm0 6a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2z"/></svg>
-      Sheet index
-    </button>
-    <div id="user-avatar" class="avatar" style="display:none"></div>
-    <button class="btn btn-xs btn-ghost" id="signout-btn" onclick="signOut()" style="display:none">Sign out</button>
+  <div class="nav-right">
+    <span class="nav-status" id="nav-status">Not connected</span>
+    <div class="avatar" id="nav-avatar" style="display:none"></div>
+    <button class="btn btn-outline btn-sm" id="nav-signout-btn" style="display:none" onclick="signOut()">Sign out</button>
   </div>
 </nav>
 
 <!-- AUTH SCREEN -->
 <div class="auth-screen" id="auth-screen">
   <div class="auth-card">
-    <div class="auth-icon">
-      <svg viewBox="0 0 24 24"><path d="M19 11H7.83l4.88-4.88c.39-.39.39-1.03 0-1.42-.39-.39-1.02-.39-1.41 0l-6.59 6.59c-.39.39-.39 1.02 0 1.41l6.59 6.59c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L7.83 13H19c.55 0 1-.45 1-1s-.45-1-1-1z"/></svg>
+    <div class="auth-logo">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z"/></svg>
     </div>
     <h1>Morris Doc Dr</h1>
-    <p>Select component datasheets from your Google Drive library and compile them into a single documentation package PDF.</p>
-    <button class="sign-in-btn" onclick="signIn()">
-      <svg viewBox="0 0 24 24" style="fill:none;stroke:#fff;stroke-width:2"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg>
+    <p>Build custom documentation packages from your Fusion Fluid component library. Sign in with Google to access your datasheets.</p>
+    <div class="auth-sheet-note">
+      <strong>📋 Component Index</strong>
+      Automatically connects to <em>Morris Doc Dr – Component Index</em> in Google Sheets.
+    </div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center;padding:11px" onclick="signIn()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
       Sign in with Google
     </button>
-    <p class="auth-note">Requires access to Google Drive and Google Sheets.<br/>PDFs are compiled locally in your browser — nothing is uploaded.</p>
+    <p style="margin-top:12px;font-size:11px;color:var(--text-secondary)">Fusion Fluid Equipment · Internal Tool</p>
   </div>
 </div>
 
-<!-- MAIN APP -->
-<div class="app" id="main-app">
-  <!-- TOOLBAR -->
-  <div class="toolbar">
-    <div class="toolbar-left">
-      <span id="drive-status"><span class="status-dot loading"></span>Connecting...</span>
+<!-- APP -->
+<div class="app-layout" id="app-layout" style="display:none">
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <h2>Component Library</h2>
+      <p id="sheet-status">Loading from Component Index…</p>
     </div>
-    <div class="toolbar-right">
-      <button class="btn btn-xs" onclick="refreshLibrary()">
-        <svg viewBox="0 0 20 20" style="width:12px;height:12px;fill:currentColor"><path d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"/></svg>
-        Refresh
-      </button>
-      <button class="btn btn-xs" onclick="showAddRootModal()">
-        <svg viewBox="0 0 20 20" style="width:12px;height:12px;fill:currentColor"><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z" clip-rule="evenodd"/><path d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z"/></svg>
-        New folder
-      </button>
+    <div class="sidebar-search">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Search components…" oninput="filterTree(this.value)" id="search-input"/>
+      </div>
+    </div>
+    <div class="tree-scroll" id="tree-container">
+      <div class="empty-state">
+        <div class="empty-state-icon">📂</div>
+        <h3>Loading…</h3>
+        <p>Connecting to Component Index</p>
+      </div>
     </div>
   </div>
 
   <div class="main">
-    <!-- TREE PANEL -->
-    <div class="panel">
-      <div class="panel-hd">
-        <span class="panel-hd-title">Component library</span>
-        <span id="lib-count" style="font-size:11px;color:var(--text-secondary);"></span>
+    <div class="main-toolbar">
+      <div class="toolbar-left">
+        <span class="sel-count" id="sel-count"><strong>0</strong> files selected</span>
+        <button class="btn btn-ghost btn-sm" onclick="clearAll()" id="clear-btn" style="display:none">Clear all</button>
       </div>
-      <div class="panel-body">
-        <div class="tree" id="tree-root"></div>
-      </div>
-    </div>
-
-    <!-- FILES PANEL -->
-    <div class="panel" style="border-right:none;">
-      <div class="breadcrumb" id="breadcrumb">
-        <span style="font-size:12px;color:var(--text-secondary);">Select a folder from the library</span>
-      </div>
-      <div class="file-toolbar">
-        <div class="search-wrap">
-          <svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
-          <input type="text" id="file-search" placeholder="Filter files..." oninput="filterFiles()"/>
-        </div>
-        <div style="display:flex;gap:5px;">
-          <button class="btn btn-xs" onclick="selectAllFiles()">Select all</button>
-          <button class="btn btn-xs" onclick="clearFolderSelection()">Clear</button>
-          <button class="btn btn-xs" onclick="showAddFileModal()">
-            <svg viewBox="0 0 20 20" style="width:12px;height:12px;fill:currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/></svg>
-            Add file
-          </button>
-        </div>
-      </div>
-      <div class="panel-body" id="file-pane">
-        <div class="empty-state">
-          <svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/></svg>
-          <div>Select a folder to browse its PDFs</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- PACKAGE PANEL -->
-    <div class="pkg-panel">
-      <div class="panel-hd" style="border-left:0.5px solid var(--border);">
-        <span class="panel-hd-title">Package contents</span>
-        <span id="sel-count" style="font-size:11px;color:var(--text-secondary);">0 selected</span>
-      </div>
-      <div class="chips" id="chips-area" style="border-left:0.5px solid var(--border);">
-        <span style="font-size:12px;color:var(--text-secondary);">Nothing selected yet</span>
-      </div>
-      <div class="pkg-stats" style="border-left:0.5px solid var(--border);">
-        <div class="stat-card">
-          <div class="stat-label">Files</div>
-          <div class="stat-value" id="stat-files">0</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-label">Est. pages</div>
-          <div class="stat-value" id="stat-pages">0</div>
-        </div>
-      </div>
-      <div class="pkg-actions" style="border-left:0.5px solid var(--border);">
-        <button class="btn btn-xs" onclick="clearAllSelected()" style="flex:1;">Clear all</button>
-        <button class="btn btn-xs btn-primary" id="build-btn" onclick="buildPackage()" disabled style="flex:2;">
-          <svg viewBox="0 0 20 20" style="width:12px;height:12px;fill:currentColor"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-          Build & Download PDF
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-outline btn-sm" onclick="openUploadModal()" id="upload-btn">
+          ⬆ Upload PDF
         </button>
+        <button class="btn btn-primary btn-sm" onclick="buildPackage()" id="build-btn">
+          📄 Build Package
+        </button>
+      </div>
+    </div>
+
+    <div class="main-content">
+      <!-- UPLOAD DROP ZONE -->
+      <div class="upload-zone" id="drop-zone"
+           onclick="document.getElementById('file-input').click()"
+           ondragover="handleDragOver(event)"
+           ondragleave="handleDragLeave(event)"
+           ondrop="handleDrop(event)">
+        <input type="file" id="file-input" accept=".pdf" multiple style="display:none" onchange="handleFileSelect(event)"/>
+        <div class="upload-zone-icon">📎</div>
+        <h4>Drop PDFs here to add to library</h4>
+        <p>Or click to browse · PDFs upload to Google Drive and index automatically</p>
+      </div>
+
+      <!-- SELECTED PANEL -->
+      <div class="selected-panel">
+        <div class="panel-header">
+          <h3>Selected for Package</h3>
+          <span class="tag tag-blue" id="sel-tag">0 files</span>
+        </div>
+        <div id="selected-list">
+          <div class="sel-empty">
+            <div class="sel-empty-icon">☑️</div>
+            Select files from the component library on the left to add them to your package.
+          </div>
+        </div>
+      </div>
+
+      <!-- BUILD CARD -->
+      <div class="build-card">
+        <h3>Build Documentation Package</h3>
+        <p>Compile selected datasheets into a single PDF with cover page, table of contents, and section dividers.</p>
+        <button class="btn btn-primary build-btn" onclick="buildPackage()" id="build-btn-2">Build & Download PDF</button>
+        <div id="build-progress" style="display:none">
+          <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+          <div class="progress-status" id="build-status-text">Preparing…</div>
+        </div>
+        <div class="build-actions" id="build-done-actions" style="display:none">
+          <button class="btn btn-primary" id="dl-btn">⬇ Download PDF</button>
+          <button class="btn btn-outline" onclick="resetBuild()">Build another</button>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- MODALS -->
+<!-- UPLOAD MODAL -->
 <div class="modal-backdrop" id="modal-backdrop" onclick="closeModal(event)">
-  <div class="modal" id="modal-content" onclick="event.stopPropagation()"></div>
+  <div class="upload-modal" id="modal-content"></div>
+</div>
+
+<!-- LOADING OVERLAY -->
+<div class="loading-overlay" id="loading-overlay" style="display:none">
+  <div class="spinner"></div>
+  <div class="loading-text" id="loading-text">Loading…</div>
 </div>
 
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
+// ── CONFIG ──────────────────────────────────────────────────────────────────
 const CLIENT_ID = '499704696187-6gu7t2o2cv8n8vhufdg6q9pnqj772fh7.apps.googleusercontent.com';
-const SCOPES = 'https://www.googleapis.com/auth/drive.readonly https://www.googleapis.com/auth/spreadsheets.readonly';
-const ROOT_COLORS = ['#185FA5','#3B6D11','#993C1D','#854F0B','#993556','#534AB7','#0F6E56','#A32D2D','#BA7517'];
+const SHEET_ID  = '1PMUlporuGtWumVMZkyxpOZmswp_Xke-hmogHklTgNbs';
+const SCOPES    = 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/drive.readonly';
 
+// ── STATE ────────────────────────────────────────────────────────────────────
 let accessToken = null;
-let userInfo = null;
-let tree = [];
-let selected = {};
-let activeNodeId = null;
-let sheetId = localStorage.getItem('fusion_sheet_id') || '';
-let addModalCtx = null;
+let treeData    = [];        // [{path, fileName, fileId, description}]
+let treeNodes   = {};        // nested tree built from treeData
+let selected    = {};        // fileId -> row object
+let packageBlob = null;
+let pendingFiles = [];       // queued for upload modal
 
-/* ── AUTH ── */
+// ── AUTH ─────────────────────────────────────────────────────────────────────
 function signIn() {
   const client = google.accounts.oauth2.initTokenClient({
     client_id: CLIENT_ID,
@@ -320,756 +312,469 @@ function signIn() {
     callback: async (resp) => {
       if (resp.error) { showToast('Sign-in failed: ' + resp.error); return; }
       accessToken = resp.access_token;
-      try {
-        const r = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', { headers: { Authorization: 'Bearer ' + accessToken } });
-        userInfo = await r.json();
-        onSignedIn();
-      } catch(e) { showToast('Could not fetch user info'); }
+      const info = await fetchJSON('https://www.googleapis.com/oauth2/v3/userinfo');
+      const initials = (info.name||'U').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+      document.getElementById('nav-avatar').textContent = initials;
+      document.getElementById('nav-avatar').style.display = 'flex';
+      document.getElementById('nav-signout-btn').style.display = 'inline-flex';
+      setNavStatus('connected', '● Connected');
+      showApp();
+      loadSheetData();
     }
   });
   client.requestAccessToken();
 }
 
-function onSignedIn() {
-  document.getElementById('auth-screen').style.display = 'none';
-  document.getElementById('main-app').classList.add('visible');
-  document.getElementById('sheet-btn').style.display = 'inline-flex';
-  document.getElementById('signout-btn').style.display = 'inline-flex';
-  const av = document.getElementById('user-avatar');
-  av.style.display = 'flex';
-  av.textContent = (userInfo.name || userInfo.email || '?').charAt(0).toUpperCase();
-  av.title = userInfo.name || userInfo.email;
-  setStatus('ok', 'Connected to Drive');
-  if (sheetId) loadFromSheet();
-  else loadFromDrive();
-}
-
 function signOut() {
-  google.accounts.oauth2.revoke(accessToken, () => {});
-  accessToken = null;
-  userInfo = null;
-  tree = []; selected = {}; activeNodeId = null;
+  if (accessToken) google.accounts.oauth2.revoke(accessToken);
+  accessToken = null; selected = {}; treeData = []; treeNodes = {};
+  document.getElementById('nav-avatar').style.display = 'none';
+  document.getElementById('nav-signout-btn').style.display = 'none';
+  setNavStatus('', 'Not connected');
   document.getElementById('auth-screen').style.display = 'flex';
-  document.getElementById('main-app').classList.remove('visible');
-  document.getElementById('sheet-btn').style.display = 'none';
-  document.getElementById('signout-btn').style.display = 'none';
-  document.getElementById('user-avatar').style.display = 'none';
+  document.getElementById('app-layout').style.display = 'none';
 }
 
-/* ── STATUS ── */
-function setStatus(type, msg) {
-  document.getElementById('drive-status').innerHTML =
-    `<span class="status-dot ${type}"></span>${msg}`;
+function showApp() {
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('app-layout').style.display = 'grid';
 }
 
-/* ── DRIVE API ── */
-async function driveRequest(path) {
-  const r = await fetch('https://www.googleapis.com/drive/v3/' + path, {
-    headers: { Authorization: 'Bearer ' + accessToken }
-  });
-  if (!r.ok) throw new Error('Drive API error: ' + r.status);
+function setNavStatus(cls, text) {
+  const el = document.getElementById('nav-status');
+  el.textContent = text;
+  el.className = 'nav-status' + (cls ? ' ' + cls : '');
+}
+
+// ── API HELPERS ───────────────────────────────────────────────────────────────
+async function fetchJSON(url, opts={}) {
+  const r = await fetch(url, { ...opts, headers: { Authorization: 'Bearer ' + accessToken, 'Content-Type': 'application/json', ...(opts.headers||{}) } });
+  if (!r.ok) { const t = await r.text(); throw new Error(r.status + ': ' + t); }
   return r.json();
 }
 
-async function loadFromDrive() {
-  setStatus('loading', 'Loading Drive folders...');
+// ── SHEET LOAD ────────────────────────────────────────────────────────────────
+async function loadSheetData() {
+  showLoading('Loading Component Index…');
   try {
-    const data = await driveRequest(
-      "files?q=mimeType='application/vnd.google-apps.folder' and trashed=false" +
-      "&fields=files(id,name,parents)&orderBy=name&pageSize=500"
-    );
-    const folders = data.files || [];
-    const pdfs = await driveRequest(
-      "files?q=mimeType='application/pdf' and trashed=false" +
-      "&fields=files(id,name,parents,size,modifiedTime)&orderBy=name&pageSize=1000"
-    );
-    buildTreeFromDrive(folders, pdfs.files || []);
-    setStatus('ok', `${folders.length} folders · ${(pdfs.files||[]).length} PDFs`);
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Sheet1!A2:D1000`;
+    const data = await fetchJSON(url);
+    const rows = (data.values || []).filter(r => r[0] && r[1] && r[2]);
+    treeData = rows.map(r => ({ path: r[0].trim(), fileName: r[1].trim(), fileId: r[2].trim(), description: r[3]||'' }));
+    buildTree();
+    renderTree(treeNodes);
+    document.getElementById('sheet-status').textContent = `${treeData.length} components loaded`;
   } catch(e) {
-    setStatus('err', 'Drive error — check permissions');
-    showToast('Drive load failed: ' + e.message);
+    document.getElementById('sheet-status').textContent = 'Error loading sheet — check permissions';
+    document.getElementById('tree-container').innerHTML = `<div class="empty-state"><div class="empty-state-icon">⚠️</div><h3>Could not load index</h3><p>${e.message}</p></div>`;
+    showToast('Sheet load failed: ' + e.message);
+  } finally {
+    hideLoading();
   }
 }
 
-function buildTreeFromDrive(folders, files) {
-  const folderMap = {};
-  folders.forEach(f => { folderMap[f.id] = { id: f.id, label: f.name, children: [], files: [], expanded: false, parentId: (f.parents||[])[0] }; });
-
-  const roots = [];
-  folders.forEach(f => {
-    const node = folderMap[f.id];
-    const parentId = (f.parents||[])[0];
-    if (folderMap[parentId]) folderMap[parentId].children.push(node);
-    else roots.push(node);
-  });
-
-  files.forEach(f => {
-    const parentId = (f.parents||[])[0];
-    if (folderMap[parentId]) {
-      folderMap[parentId].files.push({
-        id: f.id,
-        driveId: f.id,
-        name: f.name.replace(/\.pdf$/i,''),
-        pages: null,
-        size: f.size ? formatSize(parseInt(f.size)) : '—',
-        modified: new Date(f.modifiedTime).toLocaleDateString('en-US',{month:'short',year:'numeric'})
-      });
+// ── TREE BUILD ────────────────────────────────────────────────────────────────
+function buildTree() {
+  treeNodes = {};
+  for (const row of treeData) {
+    const parts = row.path.split('>').map(p => p.trim()).filter(Boolean);
+    let cur = treeNodes;
+    for (let i = 0; i < parts.length; i++) {
+      const key = parts[i];
+      if (!cur[key]) cur[key] = { _files: [], _children: {} };
+      if (i === parts.length - 1) cur[key]._files.push(row);
+      else cur = cur[key]._children;
     }
-  });
-
-  roots.sort((a,b) => a.label.localeCompare(b.label));
-  assignColors(roots, 0);
-  tree = roots;
-  renderTree();
-  renderSelected();
-}
-
-function assignColors(nodes, depth, parentColor) {
-  nodes.forEach((n, i) => {
-    n.color = depth === 0 ? ROOT_COLORS[tree.length % ROOT_COLORS.length] || ROOT_COLORS[i % ROOT_COLORS.length] : parentColor;
-    if (depth === 0) n.color = ROOT_COLORS[i % ROOT_COLORS.length];
-    assignColors(n.children || [], depth + 1, n.color);
-  });
-}
-
-async function loadFromSheet() {
-  setStatus('loading', 'Loading Sheet index...');
-  try {
-    const range = 'A2:D1000';
-    const r = await fetch(
-      `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${range}`,
-      { headers: { Authorization: 'Bearer ' + accessToken } }
-    );
-    const data = await r.json();
-    const rows = data.values || [];
-    buildTreeFromSheet(rows);
-    setStatus('ok', `${rows.length} entries from Sheet`);
-  } catch(e) {
-    setStatus('err', 'Sheet load failed — falling back to Drive');
-    showToast('Sheet error: ' + e.message + ' — loading from Drive instead');
-    loadFromDrive();
   }
 }
 
-function buildTreeFromSheet(rows) {
-  const nodeMap = {};
-  const roots = [];
+// ── TREE RENDER ───────────────────────────────────────────────────────────────
+let expandedNodes = new Set();
+let searchQuery = '';
 
-  rows.forEach(row => {
-    const [pathStr, fileName, driveId, desc] = row;
-    if (!pathStr || !fileName) return;
-    const parts = pathStr.split('>').map(p => p.trim()).filter(Boolean);
-
-    let parent = null;
-    let currentNodes = roots;
-    let currentMap = nodeMap;
-
-    parts.forEach((part, depth) => {
-      const key = parts.slice(0,depth+1).join('>');
-      if (!currentMap[key]) {
-        const node = { id: 'sh-'+key.replace(/\W+/g,'-'), label: part, children: [], files: [], expanded: depth===0, color: ROOT_COLORS[roots.length % ROOT_COLORS.length], _childMap: {} };
-        currentMap[key] = node;
-        currentNodes.push(node);
-        if (parent && depth > 0) node.color = parent.color;
-      }
-      parent = currentMap[key];
-      currentNodes = parent.children;
-      currentMap = parent._childMap || (parent._childMap = {});
-    });
-
-    if (parent) {
-      parent.files.push({
-        id: driveId || 'sh-f-' + Math.random(),
-        driveId: driveId || null,
-        name: fileName,
-        pages: null,
-        size: '—',
-        modified: '—',
-        description: desc || ''
-      });
-    }
-  });
-
-  tree = roots;
-  renderTree();
-  renderSelected();
+function renderTree(nodes, depth=0) {
+  const container = depth === 0 ? document.getElementById('tree-container') : null;
+  const html = buildTreeHTML(nodes, depth);
+  if (container) container.innerHTML = html || `<div class="empty-state"><div class="empty-state-icon">📂</div><h3>No components found</h3><p>Add files via the Component Index sheet</p></div>`;
+  return html;
 }
 
-function refreshLibrary() {
-  selected = {};
-  if (sheetId) loadFromSheet();
-  else loadFromDrive();
-}
+function buildTreeHTML(nodes, depth=0) {
+  let html = '';
+  const indent = depth * 16;
+  for (const [name, node] of Object.entries(nodes)) {
+    const nodeId = 'node_' + btoa(encodeURIComponent(name + depth)).replace(/[^a-zA-Z0-9]/g,'').slice(0,20);
+    const isOpen = expandedNodes.has(nodeId) || searchQuery;
+    const allFiles = collectFiles(node);
+    const selCount = allFiles.filter(f => selected[f.fileId]).length;
+    const hasChildren = Object.keys(node._children||{}).length > 0;
+    const hasFiles = (node._files||[]).length > 0;
 
-/* ── TREE RENDER ── */
-function renderTree() {
-  const root = document.getElementById('tree-root');
-  root.innerHTML = '';
-  let total = 0;
-  function count(nodes) { nodes.forEach(n => { total++; count(n.children||[]); }); }
-  count(tree);
-  document.getElementById('lib-count').textContent = total + ' folders';
-  renderNodes(tree, root, 0);
-}
-
-function renderNodes(nodes, container, depth) {
-  nodes.forEach(node => {
-    const hasChildren = (node.children||[]).length > 0;
-    const totalFiles = countFilesInSubtree(node);
-    const selCount = countSelectedInSubtree(node);
-    const isActive = activeNodeId === node.id;
-
-    const wrap = document.createElement('div');
-    wrap.className = 'tree-node';
-    wrap.style.paddingLeft = (depth * 16) + 'px';
-
-    const row = document.createElement('div');
-    row.className = 'tree-row' + (isActive ? ' active' : '');
-
-    const tog = document.createElement('div');
-    tog.className = 'tree-toggle' + (node.expanded ? ' open' : '');
-    if (hasChildren) {
-      tog.innerHTML = `<svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>`;
-      tog.onclick = e => { e.stopPropagation(); node.expanded = !node.expanded; renderTree(); };
-    } else {
-      tog.innerHTML = '<span style="width:12px;display:inline-block;"></span>';
+    if (searchQuery) {
+      const matchFiles = allFiles.filter(f => f.fileName.toLowerCase().includes(searchQuery) || f.path.toLowerCase().includes(searchQuery) || f.description.toLowerCase().includes(searchQuery));
+      if (matchFiles.length === 0) continue;
     }
 
-    const iconEl = document.createElement('div');
-    iconEl.className = 'tree-icon';
-    iconEl.innerHTML = `<svg viewBox="0 0 20 20" style="fill:${node.color};width:16px;height:16px;"><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z" clip-rule="evenodd"/><path d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z"/></svg>`;
-
-    const label = document.createElement('span');
-    label.className = 'tree-label';
-    label.textContent = node.label;
-
-    const actions = document.createElement('div');
-    actions.className = 'tree-actions';
-    const nodeId = node.id;
-    actions.innerHTML = `
-      <button class="btn btn-ghost btn-xs" title="Add subfolder" onclick="event.stopPropagation();showAddChildModal('${nodeId}')">
-        <svg viewBox="0 0 20 20" style="width:11px;height:11px;fill:currentColor"><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z" clip-rule="evenodd"/><path d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z"/></svg>
-      </button>
-      <button class="btn btn-ghost btn-xs" title="Rename" onclick="event.stopPropagation();renameNode('${nodeId}')">
-        <svg viewBox="0 0 20 20" style="width:11px;height:11px;fill:currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg>
-      </button>
-      <button class="btn btn-ghost btn-xs" title="Delete" onclick="event.stopPropagation();deleteNode('${nodeId}')">
-        <svg viewBox="0 0 20 20" style="width:11px;height:11px;fill:currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zm-1 7a1 1 0 012 0v4a1 1 0 11-2 0v-4zm4 0a1 1 0 012 0v4a1 1 0 11-2 0v-4z" clip-rule="evenodd"/></svg>
-      </button>`;
-
-    row.appendChild(tog);
-    row.appendChild(iconEl);
-    row.appendChild(label);
-
-    if (totalFiles > 0) {
-      const badge = document.createElement('span');
-      badge.className = 'tree-badge' + (selCount ? ' has-sel' : '');
-      badge.textContent = selCount ? `${selCount}/${totalFiles}` : totalFiles;
-      row.appendChild(badge);
-    }
-
-    row.appendChild(actions);
-    row.onclick = () => { activeNodeId = node.id; renderTree(); openFolder(node); };
-    wrap.appendChild(row);
-
-    if (node.expanded && hasChildren) {
-      const childWrap = document.createElement('div');
-      childWrap.className = 'tree-children';
-      renderNodes(node.children, childWrap, depth + 1);
-      wrap.appendChild(childWrap);
-    }
-
-    container.appendChild(wrap);
-  });
-}
-
-/* ── FOLDER / FILES ── */
-function openFolder(node) {
-  const path = getPath(node.id);
-  const bc = document.getElementById('breadcrumb');
-  bc.innerHTML = path.map((n, i) =>
-    i === path.length - 1
-      ? `<span class="crumb-cur">${n.label}</span>`
-      : `<span class="crumb" onclick="openFolderById('${n.id}')">${n.label}</span><span class="crumb-sep">/</span>`
-  ).join('');
-  renderFilePane(node, '');
-}
-
-function openFolderById(id) {
-  const node = findNode(id, tree);
-  if (node) { activeNodeId = id; renderTree(); openFolder(node); }
-}
-
-function renderFilePane(node, filter) {
-  const pane = document.getElementById('file-pane');
-  const files = (node.files || []).filter(f => !filter || f.name.toLowerCase().includes(filter.toLowerCase()));
-  if (!files.length) {
-    pane.innerHTML = `<div class="empty-state"><svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/></svg><div>${(node.files||[]).length ? 'No matches for that search' : 'No PDFs in this folder — add files or select a subfolder'}</div></div>`;
-    return;
-  }
-  pane.innerHTML = files.map(f => {
-    const isSel = !!selected[f.id];
-    return `<div class="file-item ${isSel ? 'sel' : ''}" onclick="toggleFile('${f.id}','${node.id}')">
-      <div class="file-check">${isSel ? '<svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>' : ''}</div>
-      <div class="file-icon"><svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"/></svg></div>
-      <span class="file-name">${f.name}</span>
-      <span class="file-meta">${f.size}${f.modified && f.modified !== '—' ? ' · ' + f.modified : ''}</span>
-    </div>`;
-  }).join('');
-}
-
-function filterFiles() {
-  if (!activeNodeId) return;
-  const node = findNode(activeNodeId, tree);
-  if (node) renderFilePane(node, document.getElementById('file-search').value);
-}
-
-function toggleFile(fileId, nodeId) {
-  const node = findNode(nodeId, tree);
-  if (!node) return;
-  if (selected[fileId]) {
-    delete selected[fileId];
-  } else {
-    const f = (node.files||[]).find(x => x.id === fileId);
-    if (f) selected[fileId] = { file: f, nodeId, path: getPathStr(nodeId) };
-  }
-  renderFilePane(node, document.getElementById('file-search').value);
-  renderTree();
-  renderSelected();
-}
-
-function selectAllFiles() {
-  if (!activeNodeId) return;
-  const node = findNode(activeNodeId, tree);
-  if (!node) return;
-  (node.files||[]).forEach(f => { selected[f.id] = { file: f, nodeId: node.id, path: getPathStr(node.id) }; });
-  renderFilePane(node, document.getElementById('file-search').value);
-  renderTree();
-  renderSelected();
-}
-
-function clearFolderSelection() {
-  if (!activeNodeId) return;
-  const node = findNode(activeNodeId, tree);
-  if (!node) return;
-  (node.files||[]).forEach(f => { delete selected[f.id]; });
-  renderFilePane(node, document.getElementById('file-search').value);
-  renderTree();
-  renderSelected();
-}
-
-function clearAllSelected() {
-  selected = {};
-  if (activeNodeId) {
-    const node = findNode(activeNodeId, tree);
-    if (node) renderFilePane(node, document.getElementById('file-search').value);
-  }
-  renderTree();
-  renderSelected();
-}
-
-function renderSelected() {
-  const keys = Object.keys(selected);
-  document.getElementById('sel-count').textContent = keys.length + ' selected';
-  document.getElementById('stat-files').textContent = keys.length;
-  const totalPages = keys.reduce((a,k) => a + (selected[k].file.pages || 0), 0);
-  document.getElementById('stat-pages').textContent = totalPages || '—';
-  document.getElementById('build-btn').disabled = keys.length === 0;
-
-  const chips = document.getElementById('chips-area');
-  if (!keys.length) {
-    chips.innerHTML = '<span style="font-size:12px;color:var(--text-secondary);">Nothing selected yet</span>';
-    return;
-  }
-
-  chips.innerHTML = keys.map(k => {
-    const { file, nodeId, path } = selected[k];
-    const col = getRootColor(nodeId);
-    const short = file.name.length > 30 ? file.name.substring(0,30) + '…' : file.name;
-    return `<span class="chip" style="background:${col}18;border-color:${col}55;color:${col};" title="${path} › ${file.name}">
-      <span class="chip-name">${short}</span>
-      <span class="chip-x" onclick="toggleFile('${k}','${nodeId}')">&times;</span>
-    </span>`;
-  }).join('');
-}
-
-/* ── PDF BUILD ── */
-async function buildPackage() {
-  const keys = Object.keys(selected);
-  if (!keys.length) return;
-
-  showModal(`
-    <h3>Building package...</h3>
-    <p id="bld-text">Fetching PDFs from Drive...</p>
-    <div class="progress-bar"><div class="progress-fill" id="bld-prog" style="width:0%"></div></div>
-    <p class="modal-detail" id="bld-detail">0 / ${keys.length} files</p>
-    <div class="modal-success" id="bld-success">
-      <div class="modal-actions">
-        <button class="btn btn-xs" onclick="closeModal()">Close</button>
-        <button class="btn btn-xs btn-primary" id="dl-btn">
-          <svg viewBox="0 0 20 20" style="width:12px;height:12px;fill:currentColor"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-          Download PDF
-        </button>
+    html += `<div class="tree-node">
+      <div class="tree-row${selCount>0?' selected-folder':''}" onclick="toggleNode('${nodeId}')" style="padding-left:${14+indent}px">
+        <div class="tree-toggle">${(hasChildren||hasFiles) ? (isOpen?'▾':'▸') : ''}</div>
+        <div class="tree-icon">📁</div>
+        <div class="tree-label">${escHtml(name)}</div>
+        <div class="tree-count${selCount>0?' has-selected':''}">${selCount>0?selCount+'/':''}${allFiles.length}</div>
       </div>
-    </div>`);
+      <div class="tree-children" id="${nodeId}" style="display:${isOpen?'block':'none'}">`;
 
-  const { PDFDocument, StandardFonts, rgb } = PDFLib;
-  const finalDoc = await PDFDocument.create();
-  const fontB = await finalDoc.embedFont(StandardFonts.HelveticaBold);
-  const fontR = await finalDoc.embedFont(StandardFonts.Helvetica);
-  const today = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
-
-  // Cover page
-  const cover = finalDoc.addPage([612, 792]);
-  cover.drawRectangle({ x:0, y:0, width:612, height:792, color: rgb(0.094,0.373,0.647) });
-  cover.drawRectangle({ x:0, y:0, width:6, height:792, color: rgb(0.71,0.84,0.95) });
-  cover.drawText('Morris Doc Dr', { x:54, y:660, size:30, font:fontB, color:rgb(1,1,1) });
-  cover.drawText('Fusion Fluid Equipment', { x:54, y:624, size:15, font:fontR, color:rgb(0.71,0.84,0.95) });
-  cover.drawText('Whitehall, MI', { x:54, y:602, size:12, font:fontR, color:rgb(0.71,0.84,0.95) });
-  cover.drawText(today, { x:54, y:100, size:11, font:fontR, color:rgb(0.71,0.84,0.95) });
-  cover.drawText(`${keys.length} component document${keys.length!==1?'s':''}`, { x:54, y:80, size:11, font:fontR, color:rgb(0.71,0.84,0.95) });
-
-  // TOC
-  const toc = finalDoc.addPage([612, 792]);
-  toc.drawText('Contents', { x:54, y:720, size:20, font:fontB, color:rgb(0.094,0.373,0.647) });
-  toc.drawLine({ start:{x:54,y:706}, end:{x:558,y:706}, thickness:0.5, color:rgb(0.8,0.8,0.8) });
-  let ty = 688; let lastPath = '';
-  keys.forEach(k => {
-    const { file, path } = selected[k];
-    if (path !== lastPath) {
-      if (ty < 60) return;
-      toc.drawText(path.toUpperCase(), { x:54, y:ty, size:8, font:fontB, color:rgb(0.5,0.5,0.5) });
-      ty -= 14; lastPath = path;
+    if (hasChildren) {
+      html += buildTreeHTML(node._children, depth + 1);
     }
-    if (ty < 60) return;
-    const nm = file.name.length > 65 ? file.name.substring(0,65)+'…' : file.name;
-    toc.drawText(nm, { x:66, y:ty, size:10, font:fontR, color:rgb(0.1,0.1,0.1) });
-    ty -= 13;
-  });
-
-  // Fetch and merge each PDF
-  let lastSection = '';
-  let fetched = 0;
-  for (const k of keys) {
-    const { file, path } = selected[k];
-    fetched++;
-    const pct = Math.round((fetched / keys.length) * 100);
-    const progEl = document.getElementById('bld-prog');
-    const textEl = document.getElementById('bld-text');
-    const detailEl = document.getElementById('bld-detail');
-    if (progEl) progEl.style.width = pct + '%';
-    if (textEl) textEl.textContent = 'Adding: ' + file.name;
-    if (detailEl) detailEl.textContent = `${fetched} / ${keys.length} files`;
-
-    // Section divider
-    if (path !== lastSection) {
-      const sp = finalDoc.addPage([612, 792]);
-      sp.drawRectangle({ x:0, y:0, width:612, height:792, color:rgb(0.965,0.975,0.99) });
-      sp.drawRectangle({ x:0, y:0, width:5, height:792, color:rgb(0.094,0.373,0.647) });
-      const parts = path.split(' › ');
-      if (parts.length > 1) sp.drawText(parts.slice(0,-1).join(' › '), { x:54, y:450, size:11, font:fontR, color:rgb(0.4,0.4,0.4) });
-      sp.drawText(parts[parts.length-1], { x:54, y:420, size:28, font:fontB, color:rgb(0.094,0.373,0.647) });
-      lastSection = path;
+    for (const file of (node._files||[])) {
+      if (searchQuery && !file.fileName.toLowerCase().includes(searchQuery) && !file.description.toLowerCase().includes(searchQuery)) continue;
+      const isSel = !!selected[file.fileId];
+      html += `<div class="file-row${isSel?' file-selected':''}" onclick="toggleFile(${JSON.stringify(JSON.stringify(file))})" style="padding-left:${14+indent+22}px">
+        <div class="file-check${isSel?' checked':''}"></div>
+        <div class="file-icon" style="font-size:13px">📄</div>
+        <div class="file-name">${escHtml(file.fileName)}</div>
+        ${file.description ? `<div class="file-desc">${escHtml(file.description)}</div>` : ''}
+      </div>`;
     }
 
-    // Fetch real PDF from Drive if we have a driveId
-    if (file.driveId && accessToken) {
-      try {
-        const resp = await fetch(
-          `https://www.googleapis.com/drive/v3/files/${file.driveId}?alt=media`,
-          { headers: { Authorization: 'Bearer ' + accessToken } }
-        );
-        if (resp.ok) {
-          const bytes = await resp.arrayBuffer();
-          const srcDoc = await PDFDocument.load(bytes, { ignoreEncryption: true });
-          const pages = await finalDoc.copyPages(srcDoc, srcDoc.getPageIndices());
-          pages.forEach(p => {
-            finalDoc.addPage(p);
-            // Stamp footer on each page
-            try {
-              p.drawLine({ start:{x:54,y:40}, end:{x:558,y:40}, thickness:0.5, color:rgb(0.85,0.85,0.85) });
-              p.drawText(`Fusion Fluid Equipment · ${file.name} · ${today}`, { x:54, y:26, size:7, font:fontR, color:rgb(0.65,0.65,0.65) });
-            } catch(e) {}
-          });
-          if (!file.pages) file.pages = pages.length;
-          await new Promise(r => setTimeout(r, 20));
-          continue;
-        }
-      } catch(e) {
-        console.warn('Could not fetch PDF for', file.name, e);
-      }
-    }
-
-    // Fallback placeholder page
-    const pg = finalDoc.addPage([612, 792]);
-    pg.drawText(file.name, { x:54, y:736, size:13, font:fontB, color:rgb(0.1,0.1,0.1) });
-    pg.drawText(path, { x:54, y:718, size:9, font:fontR, color:rgb(0.5,0.5,0.5) });
-    pg.drawLine({ start:{x:54,y:710}, end:{x:558,y:710}, thickness:0.5, color:rgb(0.85,0.85,0.85) });
-    pg.drawRectangle({ x:54, y:200, width:504, height:440, color:rgb(0.97,0.97,0.97) });
-    pg.drawText('PDF not available — add file to Drive and link in Sheet index', { x:74, y:420, size:11, font:fontR, color:rgb(0.7,0.7,0.7) });
-    pg.drawLine({ start:{x:54,y:60}, end:{x:558,y:60}, thickness:0.5, color:rgb(0.85,0.85,0.85) });
-    pg.drawText(`Fusion Fluid Equipment · ${today}`, { x:54, y:46, size:8, font:fontR, color:rgb(0.6,0.6,0.6) });
-    await new Promise(r => setTimeout(r, 20));
+    html += `</div></div>`;
   }
-
-  const textEl2 = document.getElementById('bld-text');
-  if (textEl2) textEl2.textContent = 'Package ready!';
-  const progEl2 = document.getElementById('bld-prog');
-  if (progEl2) progEl2.style.width = '100%';
-
-  const bytes = await finalDoc.save();
-  const blob = new Blob([bytes], { type: 'application/pdf' });
-  const url = URL.createObjectURL(blob);
-  const dlBtn = document.getElementById('dl-btn');
-  if (dlBtn) {
-    dlBtn.onclick = () => {
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `morris-doc-dr-${new Date().toISOString().slice(0,10)}.pdf`;
-      a.click();
-    };
-  }
-  const successEl = document.getElementById('bld-success');
-  if (successEl) successEl.style.display = 'block';
+  return html;
 }
 
-/* ── TREE MODALS ── */
-function showAddRootModal() {
-  showModal(`
-    <h3>New root category</h3>
-    <p>Add a top-level component category (e.g. VFDs, Couplings, Controls).</p>
-    <input type="text" id="m-name" placeholder="Category name..." />
-    <div class="modal-actions">
-      <button class="btn btn-xs" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-xs btn-primary" onclick="addRoot()">Add folder</button>
-    </div>`);
-  setTimeout(() => { const i = document.getElementById('m-name'); if(i) i.focus(); }, 50);
-}
-
-function addRoot() {
-  const name = (document.getElementById('m-name').value || '').trim();
-  if (!name) return;
-  tree.push({ id: 'r-'+Date.now(), label: name, color: ROOT_COLORS[tree.length % ROOT_COLORS.length], expanded: false, children: [], files: [] });
-  closeModal(); renderTree();
-}
-
-function showAddChildModal(parentId) {
-  addModalCtx = { parentId };
-  const parent = findNode(parentId, tree);
-  showModal(`
-    <h3>Add subfolder</h3>
-    <p>Under: <strong>${parent ? parent.label : ''}</strong></p>
-    <input type="text" id="m-name" placeholder="Subfolder name..." />
-    <div class="modal-actions">
-      <button class="btn btn-xs" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-xs btn-primary" onclick="addChild()">Add subfolder</button>
-    </div>`);
-  setTimeout(() => { const i = document.getElementById('m-name'); if(i) i.focus(); }, 50);
-}
-
-function addChild() {
-  const name = (document.getElementById('m-name').value || '').trim();
-  if (!name || !addModalCtx) return;
-  const parent = findNode(addModalCtx.parentId, tree);
-  if (!parent) return;
-  if (!parent.children) parent.children = [];
-  parent.children.push({ id: 'n-'+Date.now(), label: name, color: getRootColor(addModalCtx.parentId), expanded: false, children: [], files: [] });
-  parent.expanded = true;
-  closeModal(); renderTree();
-}
-
-function showAddFileModal() {
-  if (!activeNodeId) { showToast('Select a folder first'); return; }
-  const node = findNode(activeNodeId, tree);
-  showModal(`
-    <h3>Add file</h3>
-    <p>Adding to: <strong>${node ? node.label : ''}</strong><br/>
-    Enter the Drive file ID from the file's URL, or add manually to catalog.</p>
-    <input type="text" id="m-fname" placeholder="Display name (e.g. Baldor EM3558T 5HP)..." />
-    <input type="text" id="m-driveid" placeholder="Drive file ID (from share URL) — optional" />
-    <div class="modal-row">
-      <input type="number" id="m-pages" placeholder="Pages" min="1" style="width:90px;" />
-      <input type="text" id="m-size" placeholder="File size e.g. 1.2 MB" style="flex:1;" />
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-xs" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-xs btn-primary" onclick="addFile()">Add file</button>
-    </div>`);
-  setTimeout(() => { const i = document.getElementById('m-fname'); if(i) i.focus(); }, 50);
-}
-
-function addFile() {
-  const name = (document.getElementById('m-fname').value || '').trim();
-  const driveId = (document.getElementById('m-driveid').value || '').trim();
-  const pages = parseInt(document.getElementById('m-pages').value) || null;
-  const size = (document.getElementById('m-size').value || '').trim() || '—';
-  if (!name || !activeNodeId) return;
-  const node = findNode(activeNodeId, tree);
-  if (!node) return;
-  if (!node.files) node.files = [];
-  const today = new Date().toLocaleDateString('en-US', { month:'short', year:'numeric' });
-  node.files.push({ id: driveId || 'f-'+Date.now(), driveId: driveId || null, name, pages, size, modified: today });
-  closeModal();
-  renderTree();
-  renderFilePane(node, document.getElementById('file-search').value);
-  showToast('File added to ' + node.label);
-}
-
-function renameNode(nodeId) {
-  const node = findNode(nodeId, tree);
-  if (!node) return;
-  showModal(`
-    <h3>Rename folder</h3>
-    <input type="text" id="m-name" value="${node.label}" />
-    <div class="modal-actions">
-      <button class="btn btn-xs" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-xs btn-primary" onclick="doRename('${nodeId}')">Rename</button>
-    </div>`);
-  setTimeout(() => { const i = document.getElementById('m-name'); if(i) { i.focus(); i.select(); } }, 50);
-}
-
-function doRename(nodeId) {
-  const name = (document.getElementById('m-name').value || '').trim();
-  if (!name) return;
-  const node = findNode(nodeId, tree);
-  if (node) node.label = name;
-  closeModal(); renderTree();
-  if (activeNodeId === nodeId) openFolder(node);
-}
-
-function deleteNode(nodeId) {
-  const node = findNode(nodeId, tree);
-  const fc = node ? countFilesInSubtree(node) : 0;
-  if (!confirm(`Delete "${node ? node.label : 'this folder'}" and all its subfolders (${fc} files)? Selected files from here will be removed from your package.`)) return;
-  if (node) allFilesInSubtree(node).forEach(f => delete selected[f.id]);
-  function remove(nodes) {
-    const i = nodes.findIndex(n => n.id === nodeId);
-    if (i !== -1) { nodes.splice(i,1); return true; }
-    return nodes.some(n => n.children && remove(n.children));
-  }
-  remove(tree);
-  if (activeNodeId === nodeId) {
-    activeNodeId = null;
-    document.getElementById('file-pane').innerHTML = '<div class="empty-state"><svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/></svg><div>Select a folder to browse its PDFs</div></div>';
-    document.getElementById('breadcrumb').innerHTML = '<span style="font-size:12px;color:var(--text-secondary);">Select a folder from the library</span>';
-  }
-  renderTree(); renderSelected();
-}
-
-/* ── SHEET SETUP ── */
-function showSheetModal() {
-  showModal(`
-    <h3>Google Sheet index</h3>
-    <div class="sheet-info">
-      Create a Sheet with columns:<br/>
-      <code>A: Path</code> &nbsp; <code>B: File name</code> &nbsp; <code>C: Drive file ID</code> &nbsp; <code>D: Description</code><br/><br/>
-      Path uses <code>&gt;</code> to separate levels:<br/>
-      <code>Electric motors &gt; Baldor IEEE</code><br/>
-      <code>Gearboxes &gt; SEW &gt; SA Series</code>
-    </div>
-    <input type="text" id="m-sheetid" value="${sheetId}" placeholder="Sheet ID from the URL..." />
-    <p style="font-size:11px;">Find the Sheet ID in the URL: docs.google.com/spreadsheets/d/<strong>[ID]</strong>/edit</p>
-    <div class="modal-actions">
-      <button class="btn btn-xs" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-xs" onclick="clearSheet()">Use Drive folders instead</button>
-      <button class="btn btn-xs btn-primary" onclick="saveSheet()">Load index</button>
-    </div>`);
-  setTimeout(() => { const i = document.getElementById('m-sheetid'); if(i) i.focus(); }, 50);
-}
-
-function saveSheet() {
-  sheetId = (document.getElementById('m-sheetid').value || '').trim();
-  localStorage.setItem('fusion_sheet_id', sheetId);
-  closeModal();
-  if (sheetId) loadFromSheet();
-  else loadFromDrive();
-}
-
-function clearSheet() {
-  sheetId = '';
-  localStorage.removeItem('fusion_sheet_id');
-  closeModal();
-  loadFromDrive();
-}
-
-/* ── HELPERS ── */
-function findNode(id, nodes) {
-  for (const n of nodes) {
-    if (n.id === id) return n;
-    if (n.children) { const r = findNode(id, n.children); if (r) return r; }
-  }
-  return null;
-}
-
-function getPath(nodeId) {
-  const path = [];
-  function build(target, nodes, current) {
-    for (const n of nodes) {
-      const chain = [...current, n];
-      if (n.id === target) { path.push(...chain); return true; }
-      if (n.children && build(target, n.children, chain)) return true;
-    }
-    return false;
-  }
-  build(nodeId, tree, []);
-  return path;
-}
-
-function getPathStr(nodeId) {
-  return getPath(nodeId).map(n => n.label).join(' › ');
-}
-
-function getRootColor(nodeId) {
-  for (const r of tree) {
-    if (r.id === nodeId || findNode(nodeId, r.children||[])) return r.color;
-  }
-  return '#888';
-}
-
-function allFilesInSubtree(node) {
-  let files = [...(node.files||[])];
-  for (const c of (node.children||[])) files = [...files, ...allFilesInSubtree(c)];
+function collectFiles(node) {
+  let files = [...(node._files||[])];
+  for (const c of Object.values(node._children||{})) files = files.concat(collectFiles(c));
   return files;
 }
 
-function countFilesInSubtree(node) { return allFilesInSubtree(node).length; }
-
-function countSelectedInSubtree(node) {
-  let count = 0;
-  (node.files||[]).forEach(f => { if (selected[f.id]) count++; });
-  (node.children||[]).forEach(c => { count += countSelectedInSubtree(c); });
-  return count;
+function toggleNode(id) {
+  if (expandedNodes.has(id)) expandedNodes.delete(id);
+  else expandedNodes.add(id);
+  renderTree(treeNodes);
 }
 
-function formatSize(bytes) {
-  if (bytes < 1024) return bytes + ' B';
-  if (bytes < 1048576) return (bytes/1024).toFixed(0) + ' KB';
-  return (bytes/1048576).toFixed(1) + ' MB';
+function filterTree(q) {
+  searchQuery = q.toLowerCase().trim();
+  renderTree(treeNodes);
 }
 
-/* ── MODAL / TOAST ── */
-function showModal(html) {
-  document.getElementById('modal-content').innerHTML = html;
+function toggleFile(jsonStr) {
+  const file = JSON.parse(jsonStr);
+  if (selected[file.fileId]) delete selected[file.fileId];
+  else selected[file.fileId] = file;
+  renderTree(treeNodes);
+  renderSelected();
+}
+
+function clearAll() {
+  selected = {};
+  renderTree(treeNodes);
+  renderSelected();
+}
+
+// ── SELECTED PANEL ────────────────────────────────────────────────────────────
+function renderSelected() {
+  const files = Object.values(selected);
+  const count = files.length;
+  document.getElementById('sel-count').innerHTML = `<strong>${count}</strong> file${count!==1?'s':''} selected`;
+  document.getElementById('sel-tag').textContent = count + ' file' + (count!==1?'s':'');
+  document.getElementById('clear-btn').style.display = count > 0 ? 'inline-flex' : 'none';
+  const list = document.getElementById('selected-list');
+  if (count === 0) {
+    list.innerHTML = `<div class="sel-empty"><div class="sel-empty-icon">☑️</div>Select files from the component library on the left to add them to your package.</div>`;
+    return;
+  }
+  list.innerHTML = files.map(f => `
+    <div class="sel-item">
+      <div class="sel-item-icon">📄</div>
+      <div class="sel-item-info">
+        <div class="sel-item-name">${escHtml(f.fileName)}</div>
+        <div class="sel-item-path">${escHtml(f.path)}</div>
+      </div>
+      <button class="btn btn-ghost btn-sm" onclick="toggleFile(${JSON.stringify(JSON.stringify(f))})">✕</button>
+    </div>`).join('');
+}
+
+// ── UPLOAD ────────────────────────────────────────────────────────────────────
+function handleDragOver(e) { e.preventDefault(); document.getElementById('drop-zone').classList.add('drag-over'); }
+function handleDragLeave(e) { document.getElementById('drop-zone').classList.remove('drag-over'); }
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('drop-zone').classList.remove('drag-over');
+  const files = [...e.dataTransfer.files].filter(f => f.type === 'application/pdf');
+  if (!files.length) { showToast('Please drop PDF files only'); return; }
+  queueUpload(files);
+}
+function handleFileSelect(e) {
+  const files = [...e.target.files];
+  if (files.length) queueUpload(files);
+  e.target.value = '';
+}
+function openUploadModal() { queueUpload([]); }
+
+function queueUpload(files) {
+  pendingFiles = files;
+  // Build path options from existing tree paths
+  const paths = [...new Set(treeData.map(r => r.path))].sort();
+  const pathOptions = paths.map(p => `<option value="${escHtml(p)}">${escHtml(p)}</option>`).join('');
+  const fileList = files.length ? files.map(f => `<div style="font-size:12px;padding:3px 0;color:var(--text-secondary)">📄 ${escHtml(f.name)}</div>`).join('') : '';
+
+  document.getElementById('modal-content').innerHTML = `
+    <div class="upload-modal">
+      <h3>Upload PDF to Library</h3>
+      ${files.length ? `<div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:10px 12px;margin-bottom:14px">${fileList}</div>` : ''}
+      <div class="form-group">
+        <label>Component Path *</label>
+        <select id="up-path-sel" onchange="syncPathInput()" style="margin-bottom:6px">
+          <option value="">— Choose existing path —</option>
+          ${pathOptions}
+          <option value="__new__">+ Enter new path…</option>
+        </select>
+        <input type="text" id="up-path-input" placeholder="e.g. Electric Motors > Baldor > IEEE 841" style="display:none"/>
+      </div>
+      ${!files.length ? `<div class="form-group"><label>PDF File *</label><input type="file" id="up-file-pick" accept=".pdf" multiple/></div>` : ''}
+      <div class="form-group">
+        <label>Display Name</label>
+        <input type="text" id="up-name" placeholder="Leave blank to use filename"/>
+      </div>
+      <div class="form-group">
+        <label>Description (optional)</label>
+        <input type="text" id="up-desc" placeholder="Short note about this file"/>
+      </div>
+      <div id="upload-progress" class="upload-progress" style="display:none">
+        <div class="progress-bar"><div class="progress-fill" id="up-progress-fill" style="width:0%"></div></div>
+        <div class="progress-status" id="up-progress-text">Uploading…</div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:18px">
+        <button class="btn btn-primary" style="flex:1;justify-content:center" onclick="doUpload()">Upload to Drive</button>
+        <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+      </div>
+    </div>`;
   document.getElementById('modal-backdrop').classList.add('open');
 }
 
+function syncPathInput() {
+  const sel = document.getElementById('up-path-sel');
+  const inp = document.getElementById('up-path-input');
+  if (sel.value === '__new__') { inp.style.display = 'block'; inp.focus(); }
+  else inp.style.display = 'none';
+}
+
+async function doUpload() {
+  const pathSel = document.getElementById('up-path-sel');
+  const pathInp = document.getElementById('up-path-input');
+  const path = (pathSel.value === '__new__' ? pathInp.value : pathSel.value).trim();
+  if (!path) { showToast('Please select or enter a component path'); return; }
+
+  let filesToUpload = pendingFiles.length ? pendingFiles : [];
+  if (!filesToUpload.length) {
+    const fp = document.getElementById('up-file-pick');
+    if (!fp || !fp.files.length) { showToast('Please select a PDF file'); return; }
+    filesToUpload = [...fp.files];
+  }
+
+  const displayName = (document.getElementById('up-name').value||'').trim();
+  const desc = (document.getElementById('up-desc').value||'').trim();
+
+  // Find or create the Drive folder for this path
+  const progBar = document.getElementById('up-progress-fill');
+  const progText = document.getElementById('up-progress-text');
+  document.getElementById('upload-progress').style.display = 'block';
+
+  let folderId;
+  try {
+    progText.textContent = 'Finding Drive folder…';
+    progBar.style.width = '10%';
+    folderId = await getOrCreateDriveFolder(path);
+  } catch(e) {
+    showToast('Folder error: ' + e.message);
+    return;
+  }
+
+  for (let i = 0; i < filesToUpload.length; i++) {
+    const file = filesToUpload[i];
+    const name = (filesToUpload.length === 1 && displayName) ? displayName : file.name.replace(/\.pdf$/i, '');
+    progText.textContent = `Uploading ${i+1} of ${filesToUpload.length}: ${file.name}`;
+    progBar.style.width = Math.round(10 + (i / filesToUpload.length) * 70) + '%';
+
+    try {
+      const fileId = await uploadFileToDrive(file, folderId);
+      progBar.style.width = Math.round(80 + (i+1)/filesToUpload.length * 10) + '%';
+      progText.textContent = 'Updating Component Index…';
+      await appendSheetRow([path, name, fileId, desc]);
+      treeData.push({ path, fileName: name, fileId, description: desc });
+    } catch(e) {
+      showToast('Upload failed for ' + file.name + ': ' + e.message);
+      continue;
+    }
+  }
+
+  progBar.style.width = '100%';
+  progText.textContent = 'Done!';
+  buildTree();
+  renderTree(treeNodes);
+  document.getElementById('sheet-status').textContent = `${treeData.length} components loaded`;
+  setTimeout(() => { closeModal(); showToast(`✅ ${filesToUpload.length} file${filesToUpload.length!==1?'s':''} uploaded and indexed`); }, 600);
+}
+
+async function getOrCreateDriveFolder(path) {
+  // Search for a folder named after the full path, or just use root Drive
+  // We'll store files in a top-level folder named "Morris Doc Dr" > path parts
+  const parts = ['Morris Doc Dr', ...path.split('>').map(p=>p.trim())];
+  let parentId = 'root';
+  for (const part of parts) {
+    const q = encodeURIComponent(`name='${part}' and mimeType='application/vnd.google-apps.folder' and '${parentId}' in parents and trashed=false`);
+    const res = await fetchJSON(`https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id,name)`);
+    if (res.files && res.files.length > 0) {
+      parentId = res.files[0].id;
+    } else {
+      const created = await fetchJSON('https://www.googleapis.com/drive/v3/files', {
+        method: 'POST',
+        body: JSON.stringify({ name: part, mimeType: 'application/vnd.google-apps.folder', parents: [parentId] })
+      });
+      parentId = created.id;
+    }
+  }
+  return parentId;
+}
+
+async function uploadFileToDrive(file, folderId) {
+  const meta = { name: file.name, parents: [folderId] };
+  const form = new FormData();
+  form.append('metadata', new Blob([JSON.stringify(meta)], {type:'application/json'}));
+  form.append('file', file);
+  const r = await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id', {
+    method: 'POST',
+    headers: { Authorization: 'Bearer ' + accessToken },
+    body: form
+  });
+  if (!r.ok) { const t = await r.text(); throw new Error(t); }
+  const data = await r.json();
+  return data.id;
+}
+
+async function appendSheetRow(values) {
+  await fetchJSON(`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/Sheet1!A:D:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`, {
+    method: 'POST',
+    body: JSON.stringify({ values: [values] })
+  });
+}
+
+// ── PDF BUILD ─────────────────────────────────────────────────────────────────
+async function buildPackage() {
+  const files = Object.values(selected);
+  if (!files.length) { showToast('Select at least one file first'); return; }
+  document.getElementById('build-btn').disabled = true;
+  document.getElementById('build-btn-2').disabled = true;
+  document.getElementById('build-progress').style.display = 'block';
+  document.getElementById('build-done-actions').style.display = 'none';
+  const fill = document.getElementById('progress-fill');
+  const status = document.getElementById('build-status-text');
+
+  try {
+    const { PDFDocument, rgb, StandardFonts } = PDFLib;
+    const finalPdf = await PDFDocument.create();
+    const fontB = await finalPdf.embedFont(StandardFonts.HelveticaBold);
+    const fontR = await finalPdf.embedFont(StandardFonts.Helvetica);
+
+    // Cover
+    status.textContent = 'Building cover page…'; fill.style.width = '5%';
+    const cover = finalPdf.addPage([612, 792]);
+    cover.drawRectangle({x:0,y:0,width:612,height:792,color:rgb(0.094,0.373,0.647)});
+    cover.drawRectangle({x:0,y:0,width:612,height:220,color:rgb(0.063,0.267,0.478)});
+    cover.drawText('Morris Doc Dr', {x:54, y:660, size:30, font:fontB, color:rgb(1,1,1)});
+    cover.drawText('Fusion Fluid Equipment', {x:54, y:624, size:15, font:fontR, color:rgb(0.71,0.84,0.95)});
+    cover.drawText('Documentation Package', {x:54, y:596, size:13, font:fontR, color:rgb(0.71,0.84,0.95)});
+    const today = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+    cover.drawText(today, {x:54, y:564, size:11, font:fontR, color:rgb(0.6,0.8,1)});
+    cover.drawText(`${files.length} document${files.length!==1?'s':''} included`, {x:54, y:544, size:11, font:fontR, color:rgb(0.6,0.8,1)});
+
+    // TOC
+    status.textContent = 'Building table of contents…'; fill.style.width = '10%';
+    const toc = finalPdf.addPage([612,792]);
+    toc.drawText('Table of Contents', {x:54,y:720,size:22,font:fontB,color:rgb(0.094,0.373,0.647)});
+    toc.drawLine({start:{x:54,y:706},end:{x:558,y:706},thickness:1,color:rgb(0.094,0.373,0.647)});
+    let ty = 680;
+    for (const f of files) {
+      toc.drawText(`• ${f.fileName}`, {x:64,y:ty,size:11,font:fontR,color:rgb(0.1,0.1,0.1)});
+      toc.drawText(f.path, {x:64,y:ty-13,size:9,font:fontR,color:rgb(0.5,0.5,0.5)});
+      ty -= 32;
+      if (ty < 60) break;
+    }
+
+    // Content
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const pct = Math.round(15 + (i / files.length) * 80);
+      status.textContent = `Fetching ${file.fileName} (${i+1}/${files.length})…`;
+      fill.style.width = pct + '%';
+      try {
+        const r = await fetch(`https://www.googleapis.com/drive/v3/files/${file.fileId}?alt=media`, {
+          headers: { Authorization: 'Bearer ' + accessToken }
+        });
+        if (!r.ok) throw new Error('Drive returned ' + r.status);
+        const buf = await r.arrayBuffer();
+        const srcPdf = await PDFDocument.load(buf);
+        const pages = await finalPdf.copyPages(srcPdf, srcPdf.getPageIndices());
+        pages.forEach(p => finalPdf.addPage(p));
+      } catch(e) {
+        // Add error placeholder page
+        const ep = finalPdf.addPage([612,792]);
+        ep.drawText(`Could not load: ${file.fileName}`, {x:54,y:400,size:14,font:fontB,color:rgb(0.6,0,0)});
+        ep.drawText(e.message, {x:54,y:380,size:11,font:fontR,color:rgb(0.5,0.5,0.5)});
+      }
+    }
+
+    status.textContent = 'Saving package…'; fill.style.width = '95%';
+    const bytes = await finalPdf.save();
+    packageBlob = new Blob([bytes], {type:'application/pdf'});
+    const url = URL.createObjectURL(packageBlob);
+    fill.style.width = '100%';
+    status.textContent = '✅ Package ready!';
+    const dlBtn = document.getElementById('dl-btn');
+    const dateStr = new Date().toISOString().slice(0,10);
+    dlBtn.onclick = () => { const a=document.createElement('a'); a.href=url; a.download=`morris-doc-dr-${dateStr}.pdf`; a.click(); };
+    document.getElementById('build-done-actions').style.display = 'flex';
+  } catch(e) {
+    showToast('Build failed: ' + e.message);
+    document.getElementById('build-progress').style.display = 'none';
+    document.getElementById('build-btn').disabled = false;
+    document.getElementById('build-btn-2').disabled = false;
+  }
+}
+
+function resetBuild() {
+  document.getElementById('build-progress').style.display = 'none';
+  document.getElementById('build-done-actions').style.display = 'none';
+  document.getElementById('progress-fill').style.width = '0%';
+  document.getElementById('build-btn').disabled = false;
+  document.getElementById('build-btn-2').disabled = false;
+}
+
+// ── MODAL ─────────────────────────────────────────────────────────────────────
 function closeModal(e) {
   if (e && e.target !== document.getElementById('modal-backdrop')) return;
   document.getElementById('modal-backdrop').classList.remove('open');
 }
+function closeModal() { document.getElementById('modal-backdrop').classList.remove('open'); }
 
-function closeModal() {
-  document.getElementById('modal-backdrop').classList.remove('open');
-}
+// ── LOADING ───────────────────────────────────────────────────────────────────
+function showLoading(msg) { document.getElementById('loading-text').textContent = msg||'Loading…'; document.getElementById('loading-overlay').style.display = 'flex'; }
+function hideLoading() { document.getElementById('loading-overlay').style.display = 'none'; }
 
+// ── TOAST ─────────────────────────────────────────────────────────────────────
 let toastTimer;
 function showToast(msg) {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.classList.add('show');
+  t.textContent = msg; t.classList.add('show');
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
 }
+
+// ── UTILS ─────────────────────────────────────────────────────────────────────
+function escHtml(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 </script>
 </body>
 </html>
