@@ -928,11 +928,12 @@ async function buildPackage() {
     compiledPdf = await PDFDocument.create();
 
     // Fetch and merge all datasheets — track real page counts for TOC
+    compiledFiles = Object.values(selected);  // capture order once
     filePageCounts = [];
-    for (let i=0; i<files.length; i++) {
-      const file = files[i];
-      fill.style.width = Math.round(10 + i/files.length*85)+'%';
-      status.textContent = `Fetching ${file.fileName} (${i+1}/${files.length})…`;
+    for (let i=0; i<compiledFiles.length; i++) {
+      const file = compiledFiles[i];
+      fill.style.width = Math.round(10 + i/compiledFiles.length*85)+'%';
+      status.textContent = `Fetching ${file.fileName} (${i+1}/${compiledFiles.length})…`;
       try {
         const r = await fetch(`https://www.googleapis.com/drive/v3/files/${file.fileId}?alt=media`, { headers:{ Authorization:'Bearer '+accessToken } });
         if (!r.ok) throw new Error('Drive '+r.status);
@@ -970,6 +971,7 @@ async function buildPackage() {
 
 let compiledPdf = null;
 let filePageCounts = [];
+let compiledFiles = [];  // ordered file list matching filePageCounts
 let customFieldCount = 0;
 
 function addCustomField() {
@@ -1011,7 +1013,7 @@ async function finalizePdf() {
   if (!compiledPdf) { showToast('No compiled package found — please build again'); return; }
   try {
     const { PDFDocument, rgb, StandardFonts } = PDFLib;
-    const files = Object.values(selected);
+    const files = compiledFiles;  // use same ordered list from buildPackage
     const coverFields = getCoverData();
 
     // Build a fresh PDF with cover + TOC prepended
@@ -1132,6 +1134,7 @@ function resetBuild() {
   document.getElementById('cover-form').classList.remove('open');
   compiledPdf = null;
   filePageCounts = [];
+  compiledFiles = [];
   customFieldCount = 0;
   document.getElementById('custom-fields-list').innerHTML = '';
 }
