@@ -927,7 +927,8 @@ async function buildPackage() {
     const { PDFDocument, rgb, StandardFonts } = PDFLib;
     compiledPdf = await PDFDocument.create();
 
-    // Fetch and merge all datasheets (no cover yet — added in finalizePdf)
+    // Fetch and merge all datasheets — track real page counts for TOC
+    filePageCounts = [];
     for (let i=0; i<files.length; i++) {
       const file = files[i];
       fill.style.width = Math.round(10 + i/files.length*85)+'%';
@@ -937,9 +938,11 @@ async function buildPackage() {
         if (!r.ok) throw new Error('Drive '+r.status);
         const buf = await r.arrayBuffer();
         const src = await PDFDocument.load(buf);
+        filePageCounts.push(src.getPageCount());
         const pages = await compiledPdf.copyPages(src, src.getPageIndices());
         pages.forEach(p=>compiledPdf.addPage(p));
       } catch(e) {
+        filePageCounts.push(1);
         const fontB2 = await compiledPdf.embedFont(StandardFonts.HelveticaBold);
         const fontR2 = await compiledPdf.embedFont(StandardFonts.Helvetica);
         const ep = compiledPdf.addPage([612,792]);
@@ -966,6 +969,7 @@ async function buildPackage() {
 }
 
 let compiledPdf = null;
+let filePageCounts = [];
 let customFieldCount = 0;
 
 function addCustomField() {
@@ -1033,9 +1037,7 @@ async function finalizePdf() {
       const wmX = (612 - wmWidth) / 2;
       const wmY = (792 - wmHeight) / 2 - 20;
       cover.drawImage(logoImg, {x:wmX, y:wmY, width:wmWidth, height:wmHeight, opacity:0.18});
-    } catch(e) {
-      cover.drawText('FUSION FLUID EQUIPMENT', {x:30,y:748,size:16,font:fontB,color:rgb(0.094,0.373,0.647)});
-    }
+    } catch(e) { /* no fallback — watermark is decorative only */ }
 
     // Title area
     cover.drawText('Documentation Package', {x:30,y:730,size:26,font:fontB,color:rgb(0.094,0.373,0.647)});
@@ -1064,39 +1066,32 @@ async function finalizePdf() {
     cover.drawText(`${files.length} document${files.length!==1?'s':''} included`, {x:430,y:38,size:8,font:fontR,color:rgb(0.75,0.88,0.97)});
 
     // ── TABLE OF CONTENTS ───────────────────────────────────────────────────
-    // Count pages per file so we can show page numbers
+    // Build real page offsets: cover=1, toc=2, content starts at 3
     const pageOffsets = [];
-    let pageCounter = 2; // cover = 1, toc = 2, content starts at 3
-    for (const file of files) {
-      pageOffsets.push(pageCounter);
-      // We'll calculate real page counts from compiledPdf later
-      pageCounter++;
+    let tocPageNum = 3;
+    for (let i = 0; i < files.length; i++) {
+      pageOffsets.push(tocPageNum);
+      tocPageNum += (filePageCounts[i] || 1);
     }
 
-    // Get actual page counts from compiledPdf
-    const compiledPages = compiledPdf.getPageCount();
-    // Re-calculate: we need per-file page counts. Store them during build next time.
-    // For now use the stored pageMap if available, else show page numbers sequentially from 3
     const toc = finalPdf.addPage([612,792]);
     toc.drawRectangle({x:0,y:0,width:612,height:792,color:rgb(1,1,1)});
     toc.drawRectangle({x:0,y:732,width:612,height:60,color:rgb(0.094,0.373,0.647)});
     toc.drawText('Table of Contents', {x:54,y:757,size:15,font:fontB,color:rgb(1,1,1)});
     toc.drawLine({start:{x:54,y:720},end:{x:558,y:720},thickness:1,color:rgb(0.094,0.373,0.647)});
     let ty=698;
-    let tocPage = 3;
-    for (const f of files) {
+    for (let i = 0; i < files.length; i++) {
+      const f = files[i];
       if (ty<60) break;
       toc.drawText(`${f.fileName}`, {x:64,y:ty,size:11,font:fontR,color:rgb(0.1,0.1,0.1)});
       toc.drawText(`${f.tab} · ${f.path}`, {x:64,y:ty-13,size:9,font:fontR,color:rgb(0.5,0.5,0.5)});
-      // Dotted leader line
-      const nameWidth = 11 * f.fileName.length * 0.52;
-      const pageNumStr = String(tocPage);
-      const pageX = 558 - pageNumStr.length * 7;
+      const pageNumStr = String(pageOffsets[i]);
+      const pageX = 550 - pageNumStr.length * 7;
+      const nameWidth = Math.min(f.fileName.length * 6, pageX - 80);
       let dotX = 64 + nameWidth + 8;
       while (dotX < pageX - 8) { toc.drawText('.', {x:dotX,y:ty,size:11,font:fontR,color:rgb(0.75,0.75,0.75)}); dotX += 6; }
       toc.drawText(pageNumStr, {x:pageX,y:ty,size:11,font:fontB,color:rgb(0.094,0.373,0.647)});
       ty -= 32;
-      tocPage++;
     }
 
     // ── COPY COMPILED PAGES ─────────────────────────────────────────────────
@@ -1136,6 +1131,7 @@ function resetBuild() {
   document.getElementById('build-btn-2').disabled = false;
   document.getElementById('cover-form').classList.remove('open');
   compiledPdf = null;
+  filePageCounts = [];
   customFieldCount = 0;
   document.getElementById('custom-fields-list').innerHTML = '';
 }
