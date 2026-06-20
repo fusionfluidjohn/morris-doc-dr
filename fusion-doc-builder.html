@@ -1024,35 +1024,26 @@ async function finalizePdf() {
     // Left blue accent bar
     cover.drawRectangle({x:0,y:72,width:5,height:720,color:rgb(0.094,0.373,0.647)});
 
-    // Watermark logo — large, centered, very light opacity behind content
+    // Watermark logo — large, centered, behind content
     try {
       const logoBytes = Uint8Array.from(atob(FUSION_LOGO_B64), c=>c.charCodeAt(0));
       const logoImg = await finalPdf.embedPng(logoBytes);
-      // Scale to span most of the page width
       const wmWidth = 460;
-      const wmHeight = wmWidth / (1625/734); // maintain aspect ratio
+      const wmHeight = wmWidth / (1625/734);
       const wmX = (612 - wmWidth) / 2;
       const wmY = (792 - wmHeight) / 2 - 20;
-      cover.drawImage(logoImg, {x:wmX, y:wmY, width:wmWidth, height:wmHeight, opacity:0.06});
-
-      // Also draw a crisp version top-left, above the fields
-      const logoWidth = 220;
-      const logoHeight = logoWidth / (1625/734);
-      cover.drawImage(logoImg, {x:30, y:792-logoHeight-28, width:logoWidth, height:logoHeight, opacity:1});
+      cover.drawImage(logoImg, {x:wmX, y:wmY, width:wmWidth, height:wmHeight, opacity:0.18});
     } catch(e) {
       cover.drawText('FUSION FLUID EQUIPMENT', {x:30,y:748,size:16,font:fontB,color:rgb(0.094,0.373,0.647)});
     }
 
-    // Thin rule below logo
-    cover.drawLine({start:{x:30,y:700},end:{x:582,y:700},thickness:0.5,color:rgb(0.85,0.85,0.85)});
-
     // Title area
-    cover.drawText('Documentation Package', {x:30,y:672,size:26,font:fontB,color:rgb(0.094,0.373,0.647)});
-    cover.drawLine({start:{x:30,y:658},end:{x:582,y:658},thickness:1.5,color:rgb(0.094,0.373,0.647)});
+    cover.drawText('Documentation Package', {x:30,y:730,size:26,font:fontB,color:rgb(0.094,0.373,0.647)});
+    cover.drawLine({start:{x:30,y:716},end:{x:582,y:716},thickness:1.5,color:rgb(0.094,0.373,0.647)});
 
     // Project fields — two-column layout
     const leftX = 30, rightX = 315;
-    let fy = 630;
+    let fy = 688;
     let col = 0;
     for (const field of coverFields) {
       const x = col === 0 ? leftX : rightX;
